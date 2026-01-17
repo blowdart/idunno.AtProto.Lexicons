@@ -1,0 +1,32 @@
+name: Close inactive issues
+on:
+  schedule:
+    - cron: "30 1 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  close-issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/stale@997185467fa4f803885201cee163a9f38240193d # v10.1.1
+        with:
+          days-before-issue-stale: 28
+          days-before-issue-close: 14
+          stale-issue-label: "stale"
+          stale-issue-message: "This issue is stale because it has been open for 28 days with no activity."
+          close-issue-message: "This issue was closed because it has been inactive for 14 days since being marked as stale."
+          days-before-pr-stale: 28
+          days-before-pr-close: 28
+          stale-pr-label: "stale"
+          stale-pr-message: "This pull request is stale because it has been open for 28 days with no activity."
+          close-pr-message: "This pull request closed because it has been inactive for 28 days since being marked as stale."

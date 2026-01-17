@@ -1,0 +1,79 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="CodeQL" />
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/.devcontainer/">
+    <File Path=".devcontainer/devcontainer.json" />
+  </Folder>
+  <Folder Name="/.github/">
+    <File Path=".github/CODEOWNERS" />
+    <File Path=".github/dependabot.yml" />
+    <File Path=".github/pull_request_template.md" />
+  </Folder>
+  <Folder Name="/.github/ISSUE_TEMPLATE/">
+    <File Path=".github/ISSUE_TEMPLATE/bug_report.md" />
+    <File Path=".github/ISSUE_TEMPLATE/docs-issue.md" />
+    <File Path=".github/ISSUE_TEMPLATE/feature_request.md" />
+  </Folder>
+  <Folder Name="/.github/workflows/">
+    <File Path=".github/workflows/actions-security-analysis.yml" />
+    <File Path=".github/workflows/ci-build.yml" />
+    <File Path=".github/workflows/close-inactive-issues.yml" />
+    <File Path=".github/workflows/codeql-analysis.yml" />
+    <File Path=".github/workflows/dependency-review.yml" />
+    <File Path=".github/workflows/generate-publish-docs.yml" />
+    <File Path=".github/workflows/openssf-scorecard.yml" />
+    <File Path=".github/workflows/prerelease-build.yml" />
+    <File Path=".github/workflows/release-build.yml" />
+  </Folder>
+  <Folder Name="/samples/">
+    <File Path="samples/.editorconfig" />
+    <File Path="samples/Directory.Build.props" />
+    <File Path="samples/readme.md" />
+    <Project Path="samples/Samples.Common/Samples.Common.csproj">
+      <Build Solution="CodeQL|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
+    <Project Path="samples/Samples.ConsoleShell/Samples.ConsoleShell.csproj">
+      <Build Solution="CodeQL|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
+  </Folder> 
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path=".runsettings" />
+    <File Path=".vsconfig" />
+    <File Path="CHANGELOG.md" />
+    <File Path="CODE_OF_CONDUCT.md" />
+    <File Path="CONTRIBUTING.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="docfx.json" />
+    <File Path="exclusion.dic" />
+    <File Path="key.snk" />
+    <File Path="LICENSE" />
+    <File Path="minisign.pub" />
+    <File Path="nuget.config" />
+    <File Path="purge.ps1" />
+    <File Path="readme.md" />
+    <File Path="SECURITY.md" />
+    <File Path="sleet.json" />
+    <File Path="version.json" />
+  </Folder>
+  <Folder Name="/src/">
+    <File Path="src/.editorconfig" />
+    <File Path="src/Directory.Build.props" />
+    <Project Path="src/idunno.AtProto.Lexicons/idunno.AtProto.Lexicons.csproj" Id="7d3b5702-6c79-4f50-a10e-342812ca3851" />
+  </Folder>
+  <Folder Name="/test/">
+    <File Path="test/.editorconfig" />
+    <File Path="test/Directory.Build.props" />
+    <Project Path="test/idunno.AtProto.Lexicons.Test/idunno.AtProto.Lexicons.Test.csproj" Id="e785f87a-66d2-45f0-8077-8f27e2dd57b9">
+      <Build Solution="CodeQL|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
+  </Folder>
+</Solution>

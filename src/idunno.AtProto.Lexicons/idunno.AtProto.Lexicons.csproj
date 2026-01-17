@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Implementations of various AtProto lexicons.</Description>
+    <PackageTags>atproto,standard.site</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\exclusion.dic" Link="exclusion.dic" />
+  </ItemGroup>
+
+  <!-- Nuget package properties -->
+  <PropertyGroup>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="readme.md" Pack="true" PackagePath="\" />
+    <None Include="icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="idunno.AtProto" />
+  </ItemGroup>
+
+</Project>
