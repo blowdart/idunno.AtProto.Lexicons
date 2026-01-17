@@ -117,8 +117,7 @@ If you want to add a new lexicon please see the [contributing guide](CONTRIBUTIN
 
 ## License
 
-`idunno.Bluesky`, `idunno.AtProto`, `idunno.AtProto.OAuthCallBack` and `idunno.AtProto.Types` are available under the MIT license,
-see the [LICENSE](LICENSE) file for more information.
+`idunno.AtProto.Lexicons` is available under the MIT license, see the [LICENSE](LICENSE) file for more information.
 
 ## Tipping / Sponsoring
 
