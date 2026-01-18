@@ -28,6 +28,7 @@
     <File Path=".github/workflows/prerelease-build.yml" />
     <File Path=".github/workflows/release-build.yml" />
   </Folder>
+  <Folder Name="/docs/" />
   <Folder Name="/samples/">
     <File Path="samples/.editorconfig" />
     <File Path="samples/Directory.Build.props" />

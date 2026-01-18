@@ -1,4 +1,4 @@
-﻿# <img src="src/idunno.AtProto.Lexicons/icon.png" height="48" style="display: block; float: left"/> idunno.AtProto.Lexicons
+﻿# <img src="icon.png" height="32" /> idunno.AtProto.Lexicons
 
 A collection of lexicon implementations for [AT Protocol](https://docs.bsky.app/docs/api/at-protocol-xrpc-api) services for use with [idunno.AtProto](https://www.nuget.org/packages/idunno.AtProto).
 
