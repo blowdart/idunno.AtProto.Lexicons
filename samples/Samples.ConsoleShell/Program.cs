@@ -107,7 +107,6 @@ namespace Samples.ConsoleShell
                 // END-AUTHENTICATION
 
                 // Your code goes here
-                }
             }
         }
     }

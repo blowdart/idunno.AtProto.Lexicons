@@ -32,7 +32,10 @@
     <File Path="samples/.editorconfig" />
     <File Path="samples/Directory.Build.props" />
     <File Path="samples/readme.md" />
-    <Project Path="samples/Samples.AgentBasedStatusphere/Samples.AgentBasedStatusphere.csproj" Id="0a120831-4f00-4459-83ec-a5ca58344b70" />
+    <Project Path="samples/Samples.AgentBasedStatusphere/Samples.AgentBasedStatusphere.csproj" Id="0a120831-4f00-4459-83ec-a5ca58344b70">
+      <Build Solution="CodeQL|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
     <Project Path="samples/Samples.Common/Samples.Common.csproj">
       <Build Solution="CodeQL|*" Project="false" />
       <Build Solution="Release|*" Project="false" />
@@ -41,7 +44,10 @@
       <Build Solution="CodeQL|*" Project="false" />
       <Build Solution="Release|*" Project="false" />
     </Project>
-    <Project Path="samples/Samples.PdsDirectStatusphere/Samples.PdsDirectStatusphere.csproj" Id="dc2b8388-ad36-4048-8a4c-953467436f77" />
+    <Project Path="samples/Samples.PdsDirectStatusphere/Samples.PdsDirectStatusphere.csproj" Id="dc2b8388-ad36-4048-8a4c-953467436f77">
+      <Build Solution="CodeQL|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
   </Folder> 
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
