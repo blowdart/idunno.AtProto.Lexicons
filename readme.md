@@ -12,10 +12,8 @@ A .NET 8, 9 and 10 library and SDK for [Bluesky](https://bsky.social/) and the [
 [![NuGet Version](https://img.shields.io/nuget/vpre/idunno.AtProto.Lexicons)](https://www.nuget.org/packages/idunno.AtProto.Lexicons/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/idunno.AtProto.Lexicons)](https://www.nuget.org/packages/idunno.AtProto.Lexicons/)
 
-<!--
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/blowdart/idunno.Bluesky/badge)](https://scorecard.dev/viewer/?uri=github.com/blowdart/idunno.Bluesky)
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11157/badge)](https://www.bestpractices.dev/projects/11157)
---->
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11797/badge)](https://www.bestpractices.dev/projects/11797)
 
 ## Getting Started
 
