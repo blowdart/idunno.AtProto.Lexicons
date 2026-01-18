@@ -100,7 +100,7 @@ var createResult =
 If you want to avoid using the `AtProtoAgent`, and the app view you can directly manipulate records on a PDS with the
 `AtProtoServer` methods in `idunno.AtProto`.
 
-This approach entails you discovering the PDS endpoint for a user, authenticating with that PDS to get an session,
+This approach entails you discovering the PDS endpoint for a user, authenticating with that PDS to get a session,
 creating access credentials from the session, then using those credentials token to create, update and delete directly. You
 will also need to manually refresh sessions as they expire.
 

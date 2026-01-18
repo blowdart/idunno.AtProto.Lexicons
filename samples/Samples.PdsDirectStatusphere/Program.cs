@@ -6,6 +6,7 @@ using System.Net;
 using idunno.AtProto;
 using idunno.AtProto.Lexicons;
 using idunno.AtProto.Lexicons.Statusphere.Xyz;
+using idunno.AtProto.Repo;
 using Microsoft.Extensions.Logging;
 using Samples.Common;
 
@@ -143,7 +144,7 @@ namespace Samples.PdsDirectStatusphere
                     Status = "😁"
                 };
 
-                var createResult = await AtProtoServer.CreateRecord(
+                var createRecordResult = await AtProtoServer.CreateRecord(
                     record: status,
                     creator: did,
                     collection: StatusphereConstants.Collection,
@@ -157,16 +158,116 @@ namespace Samples.PdsDirectStatusphere
                     loggerFactory: loggerFactory,
                     cancellationToken: cancellationToken);
 
-                createResult.EnsureSucceeded();
+                createRecordResult.EnsureSucceeded();
 
-                Console.WriteLine($"Created record {createResult.Result.Uri}, rKey [{createResult.Result.Uri.RecordKey}].");
+                Console.WriteLine($"Created record {createRecordResult.Result.Uri}, rKey [{createRecordResult.Result.Uri.RecordKey}].");
 
                 // You can check the creation using https://atp.tools
                 // Enter the user handle you are testing as, then in the collections list you should see an xyz.statusphere.status collection.
                 // Select it and you will see the record just created (and potentially more).
                 // It will be the first record in the list, you can manually match the rKey and select it to see the record contents.
                 Console.WriteLine($"You can validate the {StatusphereConstants.Collection} exists at https://atp.tools/at:/{userHandle}/{StatusphereConstants.Collection}");
-                Console.WriteLine($"You can validate the new record exists and see its contents at https://atp.tools/at:/{userHandle}/{StatusphereConstants.Collection}/{createResult.Result.Uri.RecordKey}");
+                Console.WriteLine($"You can validate the new record exists and see its contents at https://atp.tools/at:/{userHandle}/{StatusphereConstants.Collection}/{createRecordResult.Result.Uri.RecordKey}");
+
+                Debugger.Break();
+
+                // Demonstrate listing custom records in a collection.
+
+                const int maximumRecordsToList = 25;
+
+                var listRecordsResult = await AtProtoServer.ListRecords<StatusphereStatus>(
+                    repo: did,
+                    collection: StatusphereConstants.Collection,
+                    limit: maximumRecordsToList,
+                    cursor: null,
+                    reverse : false,
+                    accessCredentials: null,
+                    service: pds,
+                    httpClient: httpClient,
+                    jsonSerializerOptions: serializerOptions,
+                    loggerFactory: loggerFactory,
+                    cancellationToken: cancellationToken);
+
+                listRecordsResult.EnsureSucceeded();
+
+                if (listRecordsResult.Result.Cursor is null || listRecordsResult.Result.Count < maximumRecordsToList)
+                {
+                    Console.WriteLine($"There are {listRecordsResult.Result.Count} record(s) in {StatusphereConstants.Collection}");
+                }
+                else
+                {
+                    Console.WriteLine($"There may be more than {listRecordsResult.Result.Count} records in {StatusphereConstants.Collection}");
+                    Console.WriteLine($"Listing the first {listRecordsResult.Result.Count} records.");
+                }
+
+                foreach (var record in listRecordsResult.Result)
+                {
+                    Console.WriteLine($"{record.Value.Status} @ {record.Value.CreatedAt:G} rKey: [{record.Uri.RecordKey}] contentId: [{record.Cid}]");
+                }
+
+                Debugger.Break();
+
+                // Now get the record we created earlier, using its AtUri.
+                var getRecordResult = await AtProtoServer.GetRecord<StatusphereStatus>(
+                    repo: did,
+                    collection: StatusphereConstants.Collection,
+                    rKey: createRecordResult.Result.Uri.RecordKey!,
+                    cid: null, // get the latest version,
+                    service: pds,
+                    accessCredentials: null,
+                    httpClient: httpClient,
+                    jsonSerializerOptions: serializerOptions,
+                    loggerFactory: loggerFactory,
+                    cancellationToken: cancellationToken);
+
+                getRecordResult.EnsureSucceeded();
+
+                Console.WriteLine($"Loaded record at {getRecordResult.Result.Uri} rKey: [{getRecordResult.Result.Uri.RecordKey}] => {getRecordResult.Result.Value.Status}");
+
+                Debugger.Break();
+
+                // Update the record we just retrieved.
+                StatusphereStatus statusToUpdate = getRecordResult.Result.Value;
+                statusToUpdate.Status = "😎";
+
+                var putRecordResult = await AtProtoServer.PutRecord(
+                    record: statusToUpdate,
+                    collection: StatusphereConstants.Collection,
+                    creator: did,
+                    rKey: getRecordResult.Result.Uri.RecordKey!,
+                    validate: false,
+                    swapCommit: null,
+                    swapRecord: getRecordResult.Result.Cid,
+                    service: pds,
+                    accessCredentials: accessCredentials,
+                    httpClient: httpClient,
+                    jsonSerializerOptions: serializerOptions,
+                    loggerFactory: loggerFactory,
+                    cancellationToken: cancellationToken);
+
+                putRecordResult.EnsureSucceeded();
+
+                Console.WriteLine($"Updated the status at {putRecordResult.Result.Uri}");
+
+                // You can use https://atproto.tools to validate the status property of record has, in fact, changed
+                Console.WriteLine($"You can validate record status changed at https://atp.tools/at:/{userHandle}/{StatusphereConstants.Collection}/{putRecordResult.Result.Uri.RecordKey}");
+
+                // Get the updated record to confirm the update took place.
+                getRecordResult = await AtProtoServer.GetRecord<StatusphereStatus>(
+                    repo: did,
+                    collection: StatusphereConstants.Collection,
+                    rKey: getRecordResult.Result.Uri.RecordKey!,
+                    cid: null, // get the latest version,
+                    service: pds,
+                    accessCredentials: null,
+                    httpClient: httpClient,
+                    jsonSerializerOptions: serializerOptions,
+                    loggerFactory: loggerFactory,
+                    cancellationToken: cancellationToken);
+
+                getRecordResult.EnsureSucceeded();
+
+                Console.WriteLine($"Loaded record at {getRecordResult.Result.Uri} rKey: [{getRecordResult.Result.Uri.RecordKey}] => {getRecordResult.Result.Value.Status}");
 
                 Debugger.Break();
 
@@ -174,7 +275,7 @@ namespace Samples.PdsDirectStatusphere
                 var deleteRecordResult = await AtProtoServer.DeleteRecord(
                     repo: did,
                     collection: StatusphereConstants.Collection,
-                    rKey: createResult.Result.Uri.RecordKey!,
+                    rKey: createRecordResult.Result.Uri.RecordKey!,
                     swapCommit: null,
                     swapRecord: null,
                     service: pds,
@@ -184,8 +285,8 @@ namespace Samples.PdsDirectStatusphere
                     cancellationToken: cancellationToken);
                 deleteRecordResult.EnsureSucceeded();
 
-                Console.WriteLine($"Deleted the record we created at at {createResult.Result.Uri}");
-                Console.WriteLine($"You can check the record no longer exists at https://atp.tools/at:/{userHandle}/{StatusphereConstants.Collection}/{createResult.Result.Uri.RecordKey}");
+                Console.WriteLine($"Deleted the record we created at at {createRecordResult.Result.Uri}");
+                Console.WriteLine($"You can check the record no longer exists at https://atp.tools/at:/{userHandle}/{StatusphereConstants.Collection}/{createRecordResult.Result.Uri.RecordKey}");
 
                 Debugger.Break();
 
