@@ -4,4 +4,5 @@
 
 ### Added
 
-* Classes for (Standard.Site)[https://standard.site/)
+* Records for [Standard.Site](https://standard.site/)
+* Records for [Statusphere.xyz](https://statusphere.xyz/)

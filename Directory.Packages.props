@@ -7,7 +7,7 @@
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="DotNet.ReproducibleBuilds" Version="1.2.39" />
     <PackageVersion Include="DotNetAnalyzers.DocumentationAnalyzers" Version="1.0.0-beta.59" />
-    <PackageVersion Include="idunno.AtProto" Version="1.4.0-prelease.g4ce19c1c3b" />
+    <PackageVersion Include="idunno.AtProto" Version="1.4.0-prelease.g5743f411b4" />
     <PackageVersion Include="JunitXml.TestLogger" Version="7.0.2" />
     <PackageVersion Include="Microsoft.CodeCoverage" Version="18.0.1" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />

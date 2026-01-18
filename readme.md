@@ -31,7 +31,7 @@ if (loginResult.Succeeded)
     Status = "🫘"
   };
 
-  AtProtoHttpResult<CreateRecordResult> createResult =
+var createResult =
     await agent.CreateRecord(
       record: status,
       collection: StatusphereConstants.Collection,
@@ -86,7 +86,7 @@ serializerOptions.InsertTypeResolver(SourceGenerationContext.Default);
 then pass the options to the `CreateRecord`, `ListRecords`, `PutRecord `or `ApplyWrites` methods
 
 ```c#
-AtProtoHttpResult<CreateRecordResult> createResult =
+var createResult =
   await agent.CreateRecord(
     record: status,
     collection: StatusphereConstants.Collection,
@@ -94,6 +94,84 @@ AtProtoHttpResult<CreateRecordResult> createResult =
     validate: false,
     jsonSerializerOptions: serializerOptions);
 ```
+
+## Avoiding using an agent
+
+If you want to avoid using the `AtProtoAgent`, and the app view you can directly manipulate records on a PDS with the
+`AtProtoServer` methods in `idunno.AtProto`.
+
+This approach entails you discovering the PDS endpoint for a user, authenticating with that PDS to get an session,
+creating access credentials from the session, then using those credentials token to create, update and delete directly. You
+will also need to manually refresh sessions as they expire.
+
+To discover the PDS endpoint for a user you first resolve the DID from the user handle, then resolve the PDS for the DID.
+
+```c#
+var did = await idunno.AtProto.Resolution.ResolveHandle(userHandle, cancellationToken: cancellationToken);
+if (did is null)
+{
+    // Handle is invalid, error appropriately.
+}
+
+// Get the PDS for the user handle.
+var pds = await idunno.AtProto.Resolution.ResolvePds(did, cancellationToken: cancellationToken);
+if (pds is null)
+{
+    // PDS could not be resolved, error appropriately.
+}
+```
+
+Then create a session on the PDS, and extract the access credentials from the session
+```c#
+AtProtoAccessCredentials? accessCredentials;
+var createSessionResult = await AtProtoServer.CreateSession(
+    service: pds,
+    identifier: userHandle,
+    password: password,
+    authFactorToken: authCode,
+    httpClient: httpClient);
+
+if (createSessionResult.Succeeded)
+{
+    accessCredentials = createSessionResult.Result.ToAccessCredentials();
+}
+else
+{
+    // Handle error appropriately.
+}
+
+```
+
+If `CreateSession` fails you should check the `AtErrorDetails` property of the result for more information. An error of
+`AuthFactorCodeRequired` indicates that a 2FA code is required to complete the login.
+
+Finally you can use the `AtProtoServer` methods to create, update and delete records directly.
+```c#
+var status = new StatusphereStatus
+{
+    Status = "😁"
+};
+
+var createResult = await AtProtoServer.CreateRecord(
+    record: status,
+    creator: did,
+    collection: StatusphereConstants.Collection,
+    rKey: TimestampIdentifier.Next(),
+    validate: false,
+    swapCommit: null,
+    service: pds,
+    accessCredentials: accessCredentials,
+    httpClient: httpClient);
+
+createResult.EnsureSucceeded();
+```
+
+Note that, unlike with an agent, you need to supply a lot more information to the `AtProtoServer` methods,
+including the PDS endpoint, the DID of the user, swap commit information (if any), swap record information (if any), the
+the access credentials if needed for the operation and an `HttpClient`.
+
+Please see the [AtProtoServer](https://bluesky.idunno.dev/api/idunno.AtProto.AtProtoServer.html) API reference and
+the [Bluesky Http Reference](https://docs.bsky.app/docs/api/bsky-http-api) for more information on the various parameters.
 
 ## Lexicons supported
 
