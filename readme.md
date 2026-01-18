@@ -166,7 +166,7 @@ minisign -Vm <package-path> -P RWTsT4BHHChe/Rj/GBAuZHg3RaZFnfBDqaZ7KzLvr44a7mO6f
 
 ## Pre-releases
 
-[![Prerelease Version](https://img.shields.io/myget/blowdart/vpre/idunnoidunno.AtProto.Lexicons?label=idunno.AtProto.Lexicons)](https://www.myget.org/gallery/blowdart)
+[![Prerelease Version](https://img.shields.io/myget/blowdart/vpre/idunno.AtProto.Lexicons?label=idunno.AtProto.Lexicons)](https://www.myget.org/gallery/blowdart)
 
 If you want to test pre-releases you can find them in the [myget feed](https://www.myget.org/gallery/blowdart).
 
