@@ -2,8 +2,6 @@
 
 A collection of lexicon implementations for [AT Protocol](https://docs.bsky.app/docs/api/at-protocol-xrpc-api) services for use with [idunno.AtProto](https://www.nuget.org/packages/idunno.AtProto).
 
-A .NET 8, 9 and 10 library and SDK for [Bluesky](https://bsky.social/) and the [AT Protocol](https://docs.bsky.app/docs/api/at-protocol-xrpc-api)
-
 [if you want me to wear 37 pieces of flair, like your pretty boy over there, Brian, why don't you just make the minimum 37 pieces of flair?]: #
 
 [![GitHub License](https://img.shields.io/github/license/blowdart/idunno.AtProto.Lexicons)](https://github.com/blowdart/idunno.AtProto.Lexicons/blob/main/LICENSE)
