@@ -107,13 +107,14 @@ namespace Samples.AgentBasedStatusphere
                 // END-AUTHENTICATION
 
                 // Create a JsonSerializerOptions so source generated JSON.
-                var serializerOptions = AtProtoJsonSerializerOptions.Options;
-                serializerOptions.InsertTypeResolver(idunno.AtProto.Lexicons.SourceGenerationContext.Default);
+                var serializerOptions = LexiconJsonSerializerOptions.Default;
 
                 // Create a new status instance
                 var status = new StatusphereStatus
                 {
-                    Status = "😁"
+                    Status = "😁",
+                    CreatedAt = DateTimeOffset.UtcNow
+
                 };
 
                 /// Create a record status via the agent and the bsky app view, with the jsonSerializerOptions we created previously.

@@ -19,13 +19,19 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <summary>
         /// Create a new <see cref="Publication"/> encapsulating where content lives.
         /// </summary>
+        public Publication() : base()
+        {
+        }
+
+        /// <summary>
+        /// Create a new <see cref="Publication"/> encapsulating where content lives.
+        /// </summary>
         /// <param name="url">Base publication url (ex: https://standard.site). The canonical document URL is formed by combining this value with the document path.</param>
         /// <param name="name">Name of the publication. Required, must be &lt; 1280 characters and &lt; 128 graphemes.</param>
         /// <param name="icon">Optional square image to identify the publication. Should be at least 256x256 and &lt; 1Mb in size.</param>
         /// <param name="description">Optional brief description of the publication. If specified must be &lt; 3000 characters and &lt; 300 graphemes.</param>
         /// <param name="basicTheme">Optional simplified publication theme for tools and apps to utilize when displaying content.</param>
         /// <param name="preferences">Optional record containing platform specific preferences (with a few shared properties).</param>
-        [JsonConstructor]
         [SetsRequiredMembers]
         public Publication(Uri url, string name, Blob? icon = null, string? description = null, BasicTheme? basicTheme = null, Preferences? preferences = null)
             : base(url, name, icon, description, basicTheme, preferences)
@@ -44,13 +50,19 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <summary>
         /// Create a new <see cref="Publication{T}"/> encapsulating where content lives.
         /// </summary>
+        public Publication()
+        {
+        }
+
+        /// <summary>
+        /// Create a new <see cref="Publication{T}"/> encapsulating where content lives.
+        /// </summary>
         /// <param name="url">Base publication url (ex: https://standard.site). The canonical document URL is formed by combining this value with the document path.</param>
         /// <param name="name">Name of the publication. Required, must be &lt; 1280 characters and &lt; 128 graphemes.</param>
         /// <param name="icon">Optional square image to identify the publication. Should be at least 256x256 and &lt; 1Mb in size.</param>
         /// <param name="description">Optional brief description of the publication. If specified must be &lt; 3000 characters and &lt; 300 graphemes.</param>
         /// <param name="basicTheme">Optional simplified publication theme for tools and apps to utilize when displaying content.</param>
         /// <param name="preferences">Optional record containing platform specific preferences (with a few shared properties).</param>
-        [JsonConstructor]
         [SetsRequiredMembers]
         public Publication(Uri url, string name, Blob? icon = null, string? description = null, BasicTheme? basicTheme = null, T? preferences = null)
         {

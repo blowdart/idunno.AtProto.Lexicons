@@ -23,7 +23,6 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         {
             ArgumentOutOfRangeException.ThrowIfNegative(alpha);
             ArgumentOutOfRangeException.ThrowIfGreaterThan(alpha, 100);
-
             Alpha = alpha;
         }
 
@@ -31,6 +30,16 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// The alpha value of the color.
         /// </summary>
         [JsonPropertyName("a")]
-        public required int Alpha { get; set; }
+        [SuppressMessage("Minor Code Smell", "S3236:Caller information arguments should not be provided explicitly", Justification = "Matches the parameter name to the property name for a clearer exception")]
+        public required int Alpha
+        {
+            get;
+            set
+            {
+                ArgumentOutOfRangeException.ThrowIfNegative(value, nameof(Alpha));
+                ArgumentOutOfRangeException.ThrowIfGreaterThan(value, 100, nameof(Alpha));
+                field = value;
+            }
+        }
     }
 }

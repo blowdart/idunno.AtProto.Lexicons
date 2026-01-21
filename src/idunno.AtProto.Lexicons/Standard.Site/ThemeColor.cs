@@ -13,18 +13,16 @@ namespace idunno.AtProto.Lexicons.Standard.Site
     /// <remarks>
     ///<para>Only <see cref="ThemeColorRgb"/> is supported at this moment. This class is used for future expansion.</para>
     /// </remarks>
-    [JsonPolymorphic(IgnoreUnrecognizedTypeDiscriminators = true, UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
+    [JsonPolymorphic(IgnoreUnrecognizedTypeDiscriminators = true, UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization)]
     [JsonDerivedType(typeof(ThemeColorRgb), typeDiscriminator: "site.standard.theme.color#rgb")]
     [JsonDerivedType(typeof(ThemeColorRgba), typeDiscriminator: "site.standard.theme.color#rgba")]
-    public record ThemeColor()
+    public abstract record ThemeColor
     {
         /// <summary>
-        /// A list of keys and element data that do not map to any strongly typed properties.
+        /// Creates a new instance of the <see cref="ThemeColor"/> record.
         /// </summary>
-        [NotNull]
-        [ExcludeFromCodeCoverage]
-        [JsonExtensionData]
-        [SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Needs to be settable for json deserialization")]
-        public IDictionary<string, JsonElement>? ExtensionData { get; set; } = new Dictionary<string, JsonElement>();
+        protected ThemeColor()
+        {
+        }
     }
 }

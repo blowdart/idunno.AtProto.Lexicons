@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 //
 
-using System.Reflection;
 using System.Text.Json;
 using idunno.AtProto.Lexicons.Standard.Site;
 
 namespace idunno.AtProto.Lexicons.Test.SiteStandard
 {
-    [ExcludeFromCodeCoverage]
     public class ColorTests
     {
+        private readonly JsonSerializerOptions _lexiconSerializationOptions = LexiconJsonSerializerOptions.Default;
+
         [Fact]
         public void ColorRgbValidatesByDefault()
         {
@@ -189,7 +189,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             }
             """;
 
-            ThemeColor? color = JsonSerializer.Deserialize(json, SourceGenerationContext.Default.ThemeColor);
+            ThemeColor? color = JsonSerializer.Deserialize<ThemeColor>(json, _lexiconSerializationOptions);
 
             Assert.NotNull(color);
             Assert.IsType<ThemeColorRgb>(color);
@@ -220,7 +220,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
 
             ArgumentOutOfRangeException? argumentException = ex as ArgumentOutOfRangeException;
             Assert.NotNull(argumentException);
-            Assert.Equal("red", argumentException.ParamName);
+            Assert.Equal("Red", argumentException.ParamName);
         }
 
         [Fact]
@@ -235,18 +235,18 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             }
             """;
 
-            Exception? ex = Record.Exception(() => JsonSerializer.Deserialize(json, SourceGenerationContext.Default.ThemeColor));
+            Exception? ex = Record.Exception(() => JsonSerializer.Deserialize<ThemeColor>(json, _lexiconSerializationOptions));
 
             Assert.NotNull(ex);
             Assert.IsType<ArgumentOutOfRangeException>(ex);
 
             ArgumentOutOfRangeException? argumentException = ex as ArgumentOutOfRangeException;
             Assert.NotNull(argumentException);
-            Assert.Equal("red", argumentException.ParamName);
+            Assert.Equal("Red", argumentException.ParamName);
         }
 
         [Fact]
-        public void ThemeColorRgbWillNotDeserializesWithMissingValuesAndSerializationContext()
+        public void ThemeColorRgbWillNotDeserializeWithMissingRequiredValuesAndSerializationContext()
         {
             string json = """
             {
@@ -256,7 +256,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             }
             """;
 
-            Exception? ex = Record.Exception(() => JsonSerializer.Deserialize(json, SourceGenerationContext.Default.ThemeColor));
+            Exception? ex = Record.Exception(() => JsonSerializer.Deserialize<ThemeColorRgb>(json, _lexiconSerializationOptions));
 
             Assert.NotNull(ex);
             Assert.IsType<JsonException>(ex);
@@ -270,11 +270,53 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         public void RgbSerializesAsExpected()
         {
             ThemeColorRgb color = new(34, 139, 34);
-            string json = JsonSerializer.Serialize(color, SourceGenerationContext.Default.ThemeColor);
+            string json = JsonSerializer.Serialize<ThemeColor>(color, _lexiconSerializationOptions);
             string expectedJson = """
             {"$type":"site.standard.theme.color#rgb","r":34,"g":139,"b":34}
             """;
             Assert.Equal(expectedJson, json);
+        }
+
+        [Fact]
+        public void ThemeColorRgbWillNotDeserializeToBaseTypeWithMissingRequiredValuesAndSerializationContext()
+        {
+            string json = """
+            {
+                "$type": "site.standard.theme.color#rgb",
+                "g": 139,
+                "b": 34
+            }
+            """;
+
+            Exception? ex = Record.Exception(() => JsonSerializer.Deserialize<ThemeColor>(json, _lexiconSerializationOptions));
+
+            Assert.NotNull(ex);
+            Assert.IsType<JsonException>(ex);
+
+            JsonException? argumentException = ex as JsonException;
+            Assert.NotNull(argumentException);
+            Assert.Contains("missing required properties including: 'r'", ex.Message);
+        }
+
+        [Fact]
+        public void ThemeColorRgbWillNotDeserializeToBaseTypeWithMissingRequiredValues()
+        {
+            string json = """
+            {
+                "$type": "site.standard.theme.color#rgb",
+                "g": 139,
+                "b": 34
+            }
+            """;
+
+            Exception? ex = Record.Exception(() => JsonSerializer.Deserialize<ThemeColor>(json, JsonSerializerOptions.Web));
+
+            Assert.NotNull(ex);
+            Assert.IsType<JsonException>(ex);
+
+            JsonException? argumentException = ex as JsonException;
+            Assert.NotNull(argumentException);
+            Assert.Contains("missing required properties including: 'r'", ex.Message);
         }
 
     }

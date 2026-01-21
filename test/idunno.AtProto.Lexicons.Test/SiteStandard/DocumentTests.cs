@@ -6,18 +6,19 @@ using idunno.AtProto.Repo;
 
 namespace idunno.AtProto.Lexicons.Test.SiteStandard
 {
-    [ExcludeFromCodeCoverage]
     public class DocumentTests
     {
         [Fact]
         public void DocumentConstructsCorrectlyWithOnlyRequiredParametersAndSiteIsHttps()
         {
-            string site = "https://example.com";
-            string title = "Test Document";
-            var document = new Document(site, title);
+            string expectedSite = "https://example.com";
+            string expectedTitle = "Test Document";
+            DateTimeOffset expectedPublishDate = DateTimeOffset.UtcNow;
+            var document = new Document(expectedSite, expectedTitle, expectedPublishDate);
 
-            Assert.Equal(site, document.Site);
-            Assert.Equal(title, document.Title);
+            Assert.Equal(expectedSite, document.Site);
+            Assert.Equal(expectedTitle, document.Title);
+            Assert.Equal(expectedPublishDate, document.PublishedAt);
 
             Assert.Null(document.Path);
             Assert.Null(document.Description);
@@ -27,8 +28,6 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             Assert.Null(document.BSkyPostRef);
             Assert.Null(document.Tags);
             Assert.Null(document.TextContent);
-
-            Assert.NotNull(document.PublishedAt);
 
             Assert.Null(document.UpdatedAt);
         }
@@ -36,12 +35,14 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         [Fact]
         public void DocumentConstructsCorrectlyWithOnlyRequiredParametersAndSiteIsAtUri()
         {
-            string site = "at://did:plc:identifier/blue.idunno.collection";
-            string title = "Test Document";
-            var document = new Document(site, title);
+            string expectedSite = "at://did:plc:identifier/blue.idunno.collection";
+            string expectedTitle = "Test Document";
+            DateTimeOffset expectedPublishDate = DateTimeOffset.UtcNow;
+            var document = new Document(expectedSite, expectedTitle, expectedPublishDate);
 
-            Assert.Equal(site, document.Site);
-            Assert.Equal(title, document.Title);
+            Assert.Equal(expectedSite, document.Site);
+            Assert.Equal(expectedTitle, document.Title);
+            Assert.Equal(expectedPublishDate, document.PublishedAt);
 
             Assert.Null(document.Path);
             Assert.Null(document.Description);
@@ -51,8 +52,6 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             Assert.Null(document.BSkyPostRef);
             Assert.Null(document.Tags);
             Assert.Null(document.TextContent);
-
-            Assert.NotNull(document.PublishedAt);
 
             Assert.Null(document.UpdatedAt);
         }
@@ -63,7 +62,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             string site = "javascript://alert('popping calc')";
             string title = "Test Document";
 
-            Assert.Throws<ArgumentException>(() => new Document(site, title));
+            Assert.Throws<ArgumentException>(() => new Document(site, title, DateTimeOffset.UtcNow));
         }
 
         [Fact]
@@ -72,7 +71,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             string site = "at://did:plc:identifier/blue.idunno.collection/";
             string title = "Test Document";
 
-            Assert.Throws<ArgumentException>(() => new Document(site, title));
+            Assert.Throws<ArgumentException>(() => new Document(site, title, DateTimeOffset.UtcNow));
         }
 
         [Fact]
@@ -80,7 +79,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         {
             string site = "http://example.com";
             string title = "Test Document";
-            Assert.Throws<ArgumentException>(() => new Document(site, title));
+            Assert.Throws<ArgumentException>(() => new Document(site, title, DateTimeOffset.UtcNow));
         }
 
         [Fact]
@@ -88,7 +87,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         {
             string site = "at://did:plc:identifier/invalid";
             string title = "Test Document";
-            Assert.Throws<ArgumentException>(() => new Document(site, title));
+            Assert.Throws<ArgumentException>(() => new Document(site, title, DateTimeOffset.UtcNow));
         }
 
         [Fact]
@@ -96,7 +95,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         {
             string site = "https://example.com";
             string title = string.Empty;
-            Assert.Throws<ArgumentException>(() => new Document(site, title));
+            Assert.Throws<ArgumentException>(() => new Document(site, title, DateTimeOffset.UtcNow));
         }
 
         [Fact]
@@ -104,16 +103,16 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         {
             string site = "https://example.com";
             string title = new('a', 129);
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Document(site, title));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Document(site, title, DateTimeOffset.UtcNow));
         }
 
         [Fact]
-        public void DocumentConstructorFailesWhenDescriptionIsTooLong()
+        public void DocumentConstructorFailsWhenDescriptionIsTooLong()
         {
             string site = "https://example.com";
             string title = "Test Document";
             string description = new('a', 301);
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Document(site, title, description: description));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Document(site, title, DateTimeOffset.UtcNow, description: description));
         }
 
         [Fact]
@@ -123,7 +122,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             string title = "Test Document";
             var coverImage = new Blob(new BlobReference("blobLink"), "image/png", 1000000 + 1);
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Document(site, title, coverImage: coverImage));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Document(site, title, DateTimeOffset.UtcNow, coverImage: coverImage));
         }
 
         [Fact]
@@ -133,7 +132,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             string title = "Test Document";
             var coverImage = new Blob(new BlobReference("blobLink"), "application/pdf", 1000000);
 
-            Assert.Throws<ArgumentException>(() => new Document(site, title, coverImage: coverImage));
+            Assert.Throws<ArgumentException>(() => new Document(site, title, DateTimeOffset.UtcNow, coverImage: coverImage));
         }
 
         [Fact]
@@ -143,7 +142,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             string title = "Test Document";
             var coverImage = new Blob(new BlobReference("blobLink"), string.Empty, 1000000);
 
-            Assert.Throws<ArgumentException>(() => new Document(site, title, coverImage: coverImage));
+            Assert.Throws<ArgumentException>(() => new Document(site, title, DateTimeOffset.UtcNow, coverImage: coverImage));
         }
     }
 }

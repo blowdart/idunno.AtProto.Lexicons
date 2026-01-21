@@ -73,8 +73,7 @@ namespace Samples.PdsDirectStatusphere
             }
 
             // Create a JsonSerializerOptions so source generated JSON.
-            var serializerOptions = AtProtoJsonSerializerOptions.Options;
-            serializerOptions.InsertTypeResolver(idunno.AtProto.Lexicons.SourceGenerationContext.Default);
+            var serializerOptions = LexiconJsonSerializerOptions.Default;
 
             // Change the log level in the ConfigureConsoleLogging() to enable logging
             using (ILoggerFactory? loggerFactory = Helpers.ConfigureConsoleLogging(LogLevel.Debug))
@@ -141,7 +140,8 @@ namespace Samples.PdsDirectStatusphere
                 // Create a new status instance
                 var status = new StatusphereStatus
                 {
-                    Status = "😁"
+                    Status = "😁",
+                    CreatedAt = DateTimeOffset.UtcNow,
                 };
 
                 var createRecordResult = await AtProtoServer.CreateRecord(

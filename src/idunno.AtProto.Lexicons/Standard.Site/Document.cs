@@ -18,10 +18,18 @@ namespace idunno.AtProto.Lexicons.Standard.Site
     public record Document : Document<JsonNode>
     {
         /// <summary>
+        /// Creates a new <see cref="Document"/> encapsulating what content contains.
+        /// </summary>
+        public Document()
+        {
+        }
+
+        /// <summary>
         /// Creates a new <see cref="Document"/> encapsulating what content contains, where content is mapped to a <see cref="JsonNode"/>.
         /// </summary>
         /// <param name="site">Points to a publication record (at://) or a publication url (https://) for loose documents. Avoid trailing slashes.</param>
         /// <param name="path">Optional path that is combined with site or publication url to construct a canonical URL to the document. Prepend with a leading slash.</param>
+        /// <param name="publishedAt">Timestamp of the documents publish time.</param>
         /// <param name="title">Title of the document.</param>
         /// <param name="description">Optional brief description or excerpt from the document.</param>
         /// <param name="coverImage">Optional image to used for thumbnail or cover image. Size must be less than 1MB.</param>
@@ -29,7 +37,6 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <param name="textContent">Plaintext representation of the documents contents. Should not contain markdown or other formatting.</param>
         /// <param name="bskyPostRef">Strong reference to a Bluesky post. Useful to keep track of comments off-platform.</param>
         /// <param name="tags">Array of strings used to tag or categorize the document. Avoid prepending tags with hashtags.</param>
-        /// <param name="publishedAt">Timestamp of the documents publish time. Defaults to <see cref="DateTimeOffset.UtcNow"/> if not specified.</param>
         /// <param name="updatedAt">Timestamp of the documents last edit, if any.</param>
         /// <remarks>
         /// <para>
@@ -38,11 +45,11 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// </para>
         /// <para>See <see href="https://standard.site"/></para>
         /// </remarks>
-        [JsonConstructor]
         [SetsRequiredMembers]
         public Document(
             string site,
             string title,
+            DateTimeOffset publishedAt,
             string? path = null,
             string? description = null,
             Blob? coverImage = null,
@@ -50,10 +57,10 @@ namespace idunno.AtProto.Lexicons.Standard.Site
             string? textContent = null,
             StrongReference? bskyPostRef = null,
             IEnumerable<string>? tags = null,
-            DateTimeOffset? publishedAt = null,
             DateTimeOffset? updatedAt = null) : base (
                 site: site,
                 path: path,
+                publishedAt: publishedAt,
                 title: title,
                 description: description,
                 coverImage: coverImage,
@@ -61,7 +68,102 @@ namespace idunno.AtProto.Lexicons.Standard.Site
                 textContent: textContent,
                 bskyPostRef: bskyPostRef,
                 tags: tags,
+                updatedAt: updatedAt)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="Document"/> encapsulating what content contains, where content is mapped to a <see cref="JsonNode"/>.
+        /// </summary>
+        /// <param name="site">Points a publication url (https://) for loose documents.</param>
+        /// <param name="path">Optional path that is combined with site or publication url to construct a canonical URL to the document. Prepend with a leading slash.</param>
+        /// <param name="publishedAt">Timestamp of the documents publish time.</param>
+        /// <param name="title">Title of the document.</param>
+        /// <param name="description">Optional brief description or excerpt from the document.</param>
+        /// <param name="coverImage">Optional image to used for thumbnail or cover image. Size must be less than 1MB.</param>
+        /// <param name="content">Optional open union used to define the record's content. Each entry must specify a $type and may be extended with other lexicons to support additional content formats.</param>
+        /// <param name="textContent">Plaintext representation of the documents contents. Should not contain markdown or other formatting.</param>
+        /// <param name="bskyPostRef">Strong reference to a Bluesky post. Useful to keep track of comments off-platform.</param>
+        /// <param name="tags">Array of strings used to tag or categorize the document. Avoid prepending tags with hashtags.</param>
+        /// <param name="updatedAt">Timestamp of the documents last edit, if any.</param>
+        /// <remarks>
+        /// <para>
+        /// <paramref name="content"/> is defined in the lexicon as an unconstrained union, meaning its type cannot be determined.
+        /// It is expected that developers will prefer the generic version of this class to provide a strongly typed content property.
+        /// </para>
+        /// <para>See <see href="https://standard.site"/></para>
+        /// </remarks>
+        [SetsRequiredMembers]
+        public Document(
+            Uri site,
+            string title,
+            DateTimeOffset publishedAt,
+            string? path = null,
+            string? description = null,
+            Blob? coverImage = null,
+            JsonNode? content = null,
+            string? textContent = null,
+            StrongReference? bskyPostRef = null,
+            IEnumerable<string>? tags = null,
+            DateTimeOffset? updatedAt = null) : base(
+                site: site,
+                path: path,
                 publishedAt: publishedAt,
+                title: title,
+                description: description,
+                coverImage: coverImage,
+                content: content,
+                textContent: textContent,
+                bskyPostRef: bskyPostRef,
+                tags: tags,
+                updatedAt: updatedAt)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="Document"/> encapsulating what content contains, where content is mapped to a <see cref="JsonNode"/>.
+        /// </summary>
+        /// <param name="site">Points to a publication record (at://) for loose documents.</param>
+        /// <param name="path">Optional path that is combined with site or publication url to construct a canonical URL to the document. Prepend with a leading slash.</param>
+        /// <param name="publishedAt">Timestamp of the documents publish time.</param>
+        /// <param name="title">Title of the document.</param>
+        /// <param name="description">Optional brief description or excerpt from the document.</param>
+        /// <param name="coverImage">Optional image to used for thumbnail or cover image. Size must be less than 1MB.</param>
+        /// <param name="content">Optional open union used to define the record's content. Each entry must specify a $type and may be extended with other lexicons to support additional content formats.</param>
+        /// <param name="textContent">Plaintext representation of the documents contents. Should not contain markdown or other formatting.</param>
+        /// <param name="bskyPostRef">Strong reference to a Bluesky post. Useful to keep track of comments off-platform.</param>
+        /// <param name="tags">Array of strings used to tag or categorize the document. Avoid prepending tags with hashtags.</param>
+        /// <param name="updatedAt">Timestamp of the documents last edit, if any.</param>
+        /// <remarks>
+        /// <para>
+        /// <paramref name="content"/> is defined in the lexicon as an unconstrained union, meaning its type cannot be determined.
+        /// It is expected that developers will prefer the generic version of this class to provide a strongly typed content property.
+        /// </para>
+        /// <para>See <see href="https://standard.site"/></para>
+        /// </remarks>
+        [SetsRequiredMembers]
+        public Document(
+            AtUri site,
+            string title,
+            DateTimeOffset publishedAt,
+            string? path = null,
+            string? description = null,
+            Blob? coverImage = null,
+            JsonNode? content = null,
+            string? textContent = null,
+            StrongReference? bskyPostRef = null,
+            IEnumerable<string>? tags = null,
+            DateTimeOffset? updatedAt = null) : base(
+                site: site,
+                path: path,
+                title: title,
+                publishedAt: publishedAt,
+                description: description,
+                coverImage: coverImage,
+                content: content,
+                textContent: textContent,
+                bskyPostRef: bskyPostRef,
+                tags: tags,
                 updatedAt: updatedAt)
         {
         }
@@ -78,8 +180,16 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <summary>
         /// Creates a new <see cref="Document{T}"/> encapsulating what content contains.
         /// </summary>
+        public Document()
+        {
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="Document{T}"/> encapsulating what content contains.
+        /// </summary>
         /// <param name="site">Points to a publication record (at://) or a publication url (https://) for loose documents. Avoid trailing slashes.</param>
         /// <param name="path">Optional path that is combined with site or publication url to construct a canonical URL to the document. Prepend with a leading slash.</param>
+        /// <param name="publishedAt">Timestamp of the documents publish time.</param>
         /// <param name="title">Title of the document.</param>
         /// <param name="description">Optional brief description or excerpt from the document.</param>
         /// <param name="coverImage">Optional image to used for thumbnail or cover image. Size must be less than 1MB.</param>
@@ -87,7 +197,6 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <param name="textContent">Plaintext representation of the documents contents. Should not contain markdown or other formatting.</param>
         /// <param name="bskyPostRef">Strong reference to a Bluesky post. Useful to keep track of comments off-platform.</param>
         /// <param name="tags">Array of strings used to tag or categorize the document. Avoid prepending tags with hashtags.</param>
-        /// <param name="publishedAt">Timestamp of the documents publish time.</param>
         /// <param name="updatedAt">Timestamp of the documents last edit, if any.</param>
         /// <remarks>
         /// <para>
@@ -96,11 +205,11 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// </para>
         /// <para>See <see href="https://standard.site"/></para>
         /// </remarks>
-        [JsonConstructor]
         [SetsRequiredMembers]
         public Document(
             string site,
             string title,
+            DateTimeOffset publishedAt,
             string? path = null,
             string? description = null,
             Blob? coverImage = null,
@@ -108,11 +217,11 @@ namespace idunno.AtProto.Lexicons.Standard.Site
             string? textContent = null,
             StrongReference? bskyPostRef = null,
             IEnumerable<string>? tags = null,
-            DateTimeOffset? publishedAt = null,
             DateTimeOffset? updatedAt = null)
         {
             Site = site;
             Title = title;
+            PublishedAt = publishedAt;
 
             Path = path;
             Description = description;
@@ -126,13 +235,127 @@ namespace idunno.AtProto.Lexicons.Standard.Site
                 Tags = tags;
             }
 
-            if (publishedAt is not null)
+            UpdatedAt = updatedAt;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="Document{T}"/> encapsulating what content contains.
+        /// </summary>
+        /// <param name="site">The publication <see cref="Uri"/> for loose documents.</param>
+        /// <param name="publishedAt">Timestamp of the documents publish time.</param>
+        /// <param name="title">Title of the document.</param>
+        /// <param name="path">Optional path that is combined with site or publication url to construct a canonical URL to the document. Prepend with a leading slash.</param>
+        /// <param name="description">Optional brief description or excerpt from the document.</param>
+        /// <param name="coverImage">Optional image to used for thumbnail or cover image. Size must be less than 1MB.</param>
+        /// <param name="content">Optional open union used to define the record's content. Each entry must specify a $type and may be extended with other lexicons to support additional content formats.</param>
+        /// <param name="textContent">Plaintext representation of the documents contents. Should not contain markdown or other formatting.</param>
+        /// <param name="bskyPostRef">Strong reference to a Bluesky post. Useful to keep track of comments off-platform.</param>
+        /// <param name="tags">Array of strings used to tag or categorize the document. Avoid prepending tags with hashtags.</param>
+        /// <param name="updatedAt">Timestamp of the documents last edit, if any.</param>
+        /// <remarks>
+        /// <para>
+        /// <paramref name="content"/> is defined in the lexicon as an unconstrained union, meaning its type cannot be determined. It is expected that instances of this
+        /// class provide a customized class or record to match their specific requirements.
+        /// </para>
+        /// <para>See <see href="https://standard.site"/></para>
+        /// </remarks>
+        [SetsRequiredMembers]
+        public Document(
+            Uri site,
+            string title,
+            DateTimeOffset publishedAt,
+            string? path = null,
+            string? description = null,
+            Blob? coverImage = null,
+            T? content = null,
+            string? textContent = null,
+            StrongReference? bskyPostRef = null,
+            IEnumerable<string>? tags = null,
+            DateTimeOffset? updatedAt = null)
+        {
+            ArgumentNullException.ThrowIfNull(site);
+
+            string convertedSite = site.ToString();
+            convertedSite = convertedSite.EndsWith('/') ? convertedSite.Substring(0, convertedSite.Length - 1) : convertedSite;
+
+            Site = convertedSite;
+            Title = title;
+            PublishedAt = publishedAt;
+
+            Path = path;
+            Description = description;
+            CoverImage = coverImage;
+            Content = content;
+            TextContent = textContent;
+            BSkyPostRef = bskyPostRef;
+
+            if (tags is not null)
             {
-                PublishedAt = publishedAt;
+                Tags = tags;
             }
 
             UpdatedAt = updatedAt;
         }
+
+        /// <summary>
+        /// Creates a new <see cref="Document{T}"/> encapsulating what content contains.
+        /// </summary>
+        /// <param name="site">The publication <see cref="AtUri"/> for loose documents.</param>
+        /// <param name="title">Title of the document.</param>
+        /// <param name="publishedAt">Timestamp of the document publish time.</param>
+        /// <param name="path">Optional path that is combined with site or publication url to construct a canonical URL to the document. Prepend with a leading slash.</param>
+        /// <param name="description">Optional brief description or excerpt from the document.</param>
+        /// <param name="coverImage">Optional image to used for thumbnail or cover image. Size must be less than 1MB.</param>
+        /// <param name="content">Optional open union used to define the record's content. Each entry must specify a $type and may be extended with other lexicons to support additional content formats.</param>
+        /// <param name="textContent">Plaintext representation of the documents contents. Should not contain markdown or other formatting.</param>
+        /// <param name="bskyPostRef">Strong reference to a Bluesky post. Useful to keep track of comments off-platform.</param>
+        /// <param name="tags">Array of strings used to tag or categorize the document. Avoid prepending tags with hashtags.</param>
+        /// <param name="updatedAt">Timestamp of the documents last edit, if any.</param>
+        /// <remarks>
+        /// <para>
+        /// <paramref name="content"/> is defined in the lexicon as an unconstrained union, meaning its type cannot be determined. It is expected that instances of this
+        /// class provide a customized class or record to match their specific requirements.
+        /// </para>
+        /// <para>See <see href="https://standard.site"/></para>
+        /// </remarks>
+        [SetsRequiredMembers]
+        public Document(
+            AtUri site,
+            string title,
+            DateTimeOffset publishedAt,
+            string? path = null,
+            string? description = null,
+            Blob? coverImage = null,
+            T? content = null,
+            string? textContent = null,
+            StrongReference? bskyPostRef = null,
+            IEnumerable<string>? tags = null,
+            DateTimeOffset? updatedAt = null)
+        {
+            ArgumentNullException.ThrowIfNull(site);
+
+            string convertedSite = site.ToString();
+            convertedSite = convertedSite.EndsWith('/') ? convertedSite.Substring(0, convertedSite.Length - 1) : convertedSite;
+
+            Site = convertedSite;
+            Title = title;
+            PublishedAt = publishedAt;
+
+            Path = path;
+            Description = description;
+            CoverImage = coverImage;
+            Content = content;
+            TextContent = textContent;
+            BSkyPostRef = bskyPostRef;
+
+            if (tags is not null)
+            {
+                Tags = tags;
+            }
+
+            UpdatedAt = updatedAt;
+        }
+
 
         /// <summary>
         /// Gets the canonical URL for the document, combining <see cref="Site"/> and path <see cref="Path"/>. 
@@ -164,18 +387,18 @@ namespace idunno.AtProto.Lexicons.Standard.Site
                     siteUri is not null &&
                     siteUri.Scheme != "https")
                 {
-                    throw new ArgumentException("Site scheme must be https", nameof(value));
+                    throw new ArgumentException("Site scheme must be https", nameof(Site));
                 }
 
                 if (siteUri is null &&
                     !AtUri.TryParse(value , out _))
                 {
-                    throw new ArgumentException("Site must be an Uri or AtUri", nameof(value));
+                    throw new ArgumentException("Site must be an Uri or AtUri", nameof(Site));
                 }
 
                 if (value.EndsWith('/'))
                 {
-                    throw new ArgumentException("Site cannot end in a trailing slash", nameof(value));
+                    throw new ArgumentException("Site cannot end in a trailing slash", nameof(Site));
                 }
 
                 field = value;
@@ -186,13 +409,14 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// Optional path that is combined with site or publication url to construct a canonical URL to the document. Prepend with a leading slash.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [SuppressMessage("Minor Code Smell", "S3236:Caller information arguments should not be provided explicitly", Justification = "Matches the parameter name to the property name for a clearer exception")]
         public string? Path {
             get;
             init
             {
                 if (value is not null && !value.StartsWith('/'))
                 {
-                    throw new ArgumentException("Path must start with a leading slash", nameof(value));
+                    throw new ArgumentException("Path must start with a leading slash", nameof(Path));
                 }
                 field = value;
             }
@@ -201,14 +425,15 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <summary>
         /// The title of the document.
         /// </summary>
+        [SuppressMessage("Minor Code Smell", "S3236:Caller information arguments should not be provided explicitly", Justification = "Matches the parameter name to the property name for a clearer exception")]
         public required string Title
         {
             get;
             init
             {
-                ArgumentException.ThrowIfNullOrEmpty(value);
-                ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Length, 1280);
-                ArgumentOutOfRangeException.ThrowIfGreaterThan(value.GetGraphemeLength(), 128);
+                ArgumentException.ThrowIfNullOrEmpty(value, nameof(Title));
+                ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Length, 1280, nameof(Title));
+                ArgumentOutOfRangeException.ThrowIfGreaterThan(value.GetGraphemeLength(), 128, nameof(Title));
 
                 field = value;
             }
@@ -218,14 +443,15 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// Optional brief description or excerpt from the document.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [SuppressMessage("Minor Code Smell", "S3236:Caller information arguments should not be provided explicitly", Justification = "Matches the parameter name to the property name for a clearer exception")]
         public string? Description {
             get;
             init
             {
                 if (value is not null)
                 {
-                    ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Length, 3000);
-                    ArgumentOutOfRangeException.ThrowIfGreaterThan(value.GetGraphemeLength(), 300);
+                    ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Length, 3000, nameof(Description));
+                    ArgumentOutOfRangeException.ThrowIfGreaterThan(value.GetGraphemeLength(), 300, nameof(Description));
                 }
 
                 field = value;
@@ -236,6 +462,7 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// Optional image to used for thumbnail or cover image. Size must be less than 1MB.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [SuppressMessage("Minor Code Smell", "S3236:Caller information arguments should not be provided explicitly", Justification = "Matches the parameter name to the property name for a clearer exception")]
         public Blob? CoverImage
         {
             get;
@@ -243,12 +470,12 @@ namespace idunno.AtProto.Lexicons.Standard.Site
             {
                 if (value is not null)
                 {
-                    ArgumentException.ThrowIfNullOrEmpty(value.MimeType);
-                    ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Size, 1000000);
+                    ArgumentException.ThrowIfNullOrEmpty(nameof(CoverImage.MimeType));
+                    ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Size, 1000000, nameof(CoverImage.Size));
 
                     if (!value.MimeType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
                     {
-                        throw new ArgumentException("CoverImage does not have an image MIME type.", nameof(value));
+                        throw new ArgumentException("CoverImage does not have an image MIME type.", nameof(CoverImage));
                     }
                 }
 
@@ -272,6 +499,7 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// Strong reference to a Bluesky post. Useful to keep track of comments off-platform.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("bskyPostRef")]
         public StrongReference? BSkyPostRef { get; init; }
 
         /// <summary>
@@ -283,7 +511,20 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <summary>
         /// Timestamp of the documents publish time.
         /// </summary>
-        public required DateTimeOffset? PublishedAt { get; init; } = DateTimeOffset.UtcNow;
+        [NotNull]
+        [SuppressMessage("Minor Code Smell", "S3236:Caller information arguments should not be provided explicitly", Justification = "Matches the parameter name to the property name for a clearer exception")]
+        public required DateTimeOffset? PublishedAt {
+            get;
+            init
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException(nameof(PublishedAt));
+                }
+
+                field = value;
+            }
+        }
 
         /// <summary>
         /// Timestamp of the documents last edit, if any.

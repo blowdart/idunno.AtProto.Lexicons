@@ -1,6 +1,3 @@
-﻿# standard.site
+﻿# lexicon.community
 
-## One schema. Every platform.
-
-[Standard.site](https://standard.site/) provides shared lexicons for long-form publishing on AT Protocol.
-Making content easier to discover, index, and move across the ATmosphere.
+A [working group](https://github.com/lexicon-community) to create community ATProtocol Lexicons.

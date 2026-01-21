@@ -7,7 +7,6 @@ using idunno.AtProto.Repo;
 
 namespace idunno.AtProto.Lexicons.Test.SiteStandard
 {
-    [ExcludeFromCodeCoverage]
     public class PublicationTests
     {
         [Fact]
@@ -31,9 +30,9 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         {
             var url = new Uri("https://standard.site");
             string name = "Test Publication";
-            Blob icon = new (new BlobReference("blobLink"), "image/png", 1024);
+            Blob icon = new(new BlobReference("blobLink"), "image/png", 1024);
             string description = "This is a test publication.";
-            BasicTheme basicTheme = new (new ThemeColorRgb(255, 255, 255), new ThemeColorRgb(0, 0, 0), new ThemeColorRgb(128, 128, 128), new ThemeColorRgb(192, 192, 192));
+            BasicTheme basicTheme = new(new ThemeColorRgb(255, 255, 255), new ThemeColorRgb(0, 0, 0), new ThemeColorRgb(128, 128, 128), new ThemeColorRgb(192, 192, 192));
             TestPreferences preferences = new (true);
 
             var publication = new Publication<TestPreferences>(url, name, icon, description, basicTheme, preferences);
@@ -95,8 +94,18 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
     }
 
     [ExcludeFromCodeCoverage]
-    internal record class TestPreferences(bool ShowInDiscover) : Preferences(ShowInDiscover)
+    internal record class TestPreferences: Preferences
     {
+        public TestPreferences() : base()
+        {
+
+        }
+
+        [SetsRequiredMembers]
+        public TestPreferences(bool showInDiscover) : base(showInDiscover)
+        {
+        }
+
         public override string Type => "test.idunno.atproto.lexicons.test.site.standard.preferences";
     }
 }

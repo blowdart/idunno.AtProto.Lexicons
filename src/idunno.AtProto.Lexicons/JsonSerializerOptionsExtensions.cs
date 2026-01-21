@@ -17,7 +17,7 @@ namespace idunno.AtProto.Lexicons
         /// <param name="jsonSerializerOptions">The <see cref="JsonSerializerOptions"/> to append the resolver to.</param>
         /// <param name="other">The <see cref="JsonSerializerOptions"/> whose type information resolver should be appended.</param>
         /// <returns>The <see cref="JsonSerializerOptions"/>.</returns>
-        public static JsonSerializerOptions AppendTypeResolver(this JsonSerializerOptions jsonSerializerOptions, JsonSerializerOptions other)
+        public static JsonSerializerOptions AppendJsonInfoTypeResolver(this JsonSerializerOptions jsonSerializerOptions, JsonSerializerOptions other)
         {
             if (jsonSerializerOptions is null)
             {
@@ -29,7 +29,7 @@ namespace idunno.AtProto.Lexicons
                 return jsonSerializerOptions;
             }
 
-            return AppendTypeResolver(jsonSerializerOptions, other.TypeInfoResolver);
+            return AppendJsonInfoTypeResolver(jsonSerializerOptions, other.TypeInfoResolver);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace idunno.AtProto.Lexicons
         /// <param name="jsonSerializerOptions">The <see cref="JsonSerializerOptions"/> to append the resolver to.</param>
         /// <param name="jsonTypeInfoResolver">The type information resolver to append.</param>
         /// <returns>The <see cref="JsonSerializerOptions"/>.</returns>
-        public static JsonSerializerOptions AppendTypeResolver(this JsonSerializerOptions jsonSerializerOptions, IJsonTypeInfoResolver jsonTypeInfoResolver)
+        public static JsonSerializerOptions AppendJsonInfoTypeResolver(this JsonSerializerOptions jsonSerializerOptions, IJsonTypeInfoResolver jsonTypeInfoResolver)
         {
             ArgumentNullException.ThrowIfNull(jsonSerializerOptions);
             ArgumentNullException.ThrowIfNull(jsonTypeInfoResolver);
@@ -54,7 +54,7 @@ namespace idunno.AtProto.Lexicons
         /// <param name="jsonSerializerOptions">The <see cref="JsonSerializerOptions"/> to append the resolver to.</param>
         /// <param name="other">The <see cref="JsonSerializerOptions"/> whose type information resolver should be inserted.</param>
         /// <returns>The <see cref="JsonSerializerOptions"/>.</returns>
-        public static JsonSerializerOptions InsertTypeResolver(this JsonSerializerOptions jsonSerializerOptions, JsonSerializerOptions other)
+        public static JsonSerializerOptions InsertJsonInfoTypeResolver(this JsonSerializerOptions jsonSerializerOptions, JsonSerializerOptions other)
         {
             if (jsonSerializerOptions is null)
             {
@@ -66,7 +66,7 @@ namespace idunno.AtProto.Lexicons
                 return jsonSerializerOptions;
             }
 
-            return InsertTypeResolver(jsonSerializerOptions, other.TypeInfoResolver);
+            return InsertJsonInfoTypeResolver(jsonSerializerOptions, other.TypeInfoResolver);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace idunno.AtProto.Lexicons
         /// <param name="jsonSerializerOptions">The <see cref="JsonSerializerOptions"/> to insert the resolver into.</param>
         /// <param name="jsonTypeInfoResolver">The type information resolver to append.</param>
         /// <returns>The <see cref="JsonSerializerOptions"/>.</returns>
-        public static JsonSerializerOptions InsertTypeResolver(this JsonSerializerOptions jsonSerializerOptions, IJsonTypeInfoResolver jsonTypeInfoResolver)
+        public static JsonSerializerOptions InsertJsonInfoTypeResolver(this JsonSerializerOptions jsonSerializerOptions, IJsonTypeInfoResolver jsonTypeInfoResolver)
         {
             ArgumentNullException.ThrowIfNull(jsonSerializerOptions);
             ArgumentNullException.ThrowIfNull(jsonTypeInfoResolver);

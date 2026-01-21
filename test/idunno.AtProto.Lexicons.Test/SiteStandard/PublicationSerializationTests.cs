@@ -3,14 +3,15 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using idunno.AtProto.Lexicons;
+using idunno.AtProto.Lexicons.Lexicon.Community.Location;
 using idunno.AtProto.Lexicons.Standard.Site;
 
 namespace idunno.AtProto.Lexicons.Test.SiteStandard
 {
-    [ExcludeFromCodeCoverage]
     public class PublicationSerializationTests
     {
+        private readonly JsonSerializerOptions _lexiconSerializationOptions = LexiconJsonSerializerOptions.Default;
+
         [Fact]
         public void FullyPopulatedPublicationDeserializesCorrectly()
         {
@@ -204,7 +205,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
                 }
                 """;
 
-            Publication? publication = JsonSerializer.Deserialize(json, SourceGenerationContext.Default.Publication);
+            Publication? publication = JsonSerializer.Deserialize<Publication>(json, _lexiconSerializationOptions);
 
             Assert.NotNull(publication);
             Assert.Equal("Name", publication.Name);
@@ -214,6 +215,46 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             Assert.Null(publication.Preferences);
             Assert.Null(publication.BasicTheme);
         }
+
+        [Fact]
+        public void DeserializationFailsWithoutName()
+        {
+            string json = """
+                {
+                    "url": "https://site.standard"
+                }
+                """;
+
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Publication>(json, _lexiconSerializationOptions));
+        }
+
+        [Fact]
+        public void DeserializationFailsWithoutUrl()
+        {
+            string json = """
+                {
+                    "name": "Name"
+                }
+                """;
+
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Publication>(json, _lexiconSerializationOptions));
+        }
+
+        [Fact]
+        public void DeserializationFailsWithPreferencesButNoShowInDiscover()
+        {
+            string json = """
+                {
+                    "name": "Name",
+                    "url": "https://site.standard",
+                    "preferences": {
+                    }
+                }
+                """;
+
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Publication>(json, _lexiconSerializationOptions));
+        }
+
 
         [Fact]
         public void FullyPopulatedNonGenericPublicationDeserializesCorrectlyWithSerializationContext()
@@ -244,7 +285,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
                 }
                 """;
 
-            Publication? publication = JsonSerializer.Deserialize(json, SourceGenerationContext.Default.Publication);
+            Publication? publication = JsonSerializer.Deserialize<Publication>(json, _lexiconSerializationOptions);
 
             Assert.NotNull(publication);
             Assert.Equal("Name", publication.Name);
@@ -284,7 +325,6 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             Assert.Equal(2, accentForeground.Green);
             Assert.Equal(3, accentForeground.Blue);
         }
-
 
         [Fact]
         public void MinimalPublicationSerializesCorrectly()
@@ -328,18 +368,8 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             string expected = """
                 {"$type":"site.standard.publication","url":"https://standard.site","name":"Test Publication"}
                 """;
-
-            JsonSerializerOptions jsonSerializerOptions = new(JsonSerializerDefaults.Web)
-            {
-                AllowOutOfOrderMetadataProperties = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                IgnoreReadOnlyProperties = false,
-                TypeInfoResolver = SiteStandardTestSourceGenerationContext.Default,
-                UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
-            };
-            jsonSerializerOptions.InsertTypeResolver(SourceGenerationContext.Default);
            
-            string actual = JsonSerializer.Serialize(publication, jsonSerializerOptions);
+            string actual = JsonSerializer.Serialize(publication, _lexiconSerializationOptions);
 
             Assert.Equal(expected, actual);
         }
@@ -355,17 +385,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
                 {"$type":"site.standard.publication","url":"https://standard.site","name":"Test Publication"}
                 """;
 
-            JsonSerializerOptions jsonSerializerOptions = new(JsonSerializerDefaults.Web)
-            {
-                AllowOutOfOrderMetadataProperties = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                IgnoreReadOnlyProperties = false,
-                TypeInfoResolver = SiteStandardTestSourceGenerationContext.Default,
-                UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
-            };
-            jsonSerializerOptions.InsertTypeResolver(SourceGenerationContext.Default);
-
-            string actual = JsonSerializer.Serialize(publication, jsonSerializerOptions);
+            string actual = JsonSerializer.Serialize(publication, _lexiconSerializationOptions);
 
             Assert.Equal(expected, actual);
         }
@@ -381,17 +401,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
                 {"$type":"site.standard.publication","url":"https://standard.site","name":"Test Publication","preferences":{"showComments":true,"showInDiscover":true}}
                 """;
 
-            JsonSerializerOptions jsonSerializerOptions = new(JsonSerializerDefaults.Web)
-            {
-                AllowOutOfOrderMetadataProperties = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                IgnoreReadOnlyProperties = false,
-                TypeInfoResolver = SiteStandardTestSourceGenerationContext.Default,
-                UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
-            };
-            jsonSerializerOptions.InsertTypeResolver(SourceGenerationContext.Default);
-
-            string actual = JsonSerializer.Serialize(publication, jsonSerializerOptions);
+            string actual = JsonSerializer.Serialize(publication, _lexiconSerializationOptions);
 
             Assert.Equal(expected, actual);
         }
@@ -399,13 +409,12 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
 
     internal record CustomPreferences : Lexicons.Standard.Site.Preferences
     {
-        [JsonConstructor]
+        [SetsRequiredMembers]
         public CustomPreferences(bool showInDiscover, bool showComments) : base(showInDiscover)
         {
             ShowComments = showComments;
         }
 
-        [JsonInclude]
         public bool ShowComments { get; init; }
     }
 }

@@ -5,11 +5,23 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using idunno.AtProto.Lexicons.Statusphere.Xyz;
 
-namespace idunno.AtProto.Lexicons.Test.StatusSphere
+namespace idunno.AtProto.Lexicons.Test.Statusphere
 {
-    [ExcludeFromCodeCoverage]
-    public class SerializationTests
+    public class StatusphereTests
     {
+        private readonly JsonSerializerOptions _lexiconSerializationOptions = LexiconJsonSerializerOptions.Default;
+
+        [Fact]
+        public void ConstructorsEnforceRequiredFields()
+        {
+            _ = new StatusphereStatus("😐");
+            _ = new StatusphereStatus
+            {
+                Status = "😐",
+                CreatedAt = DateTimeOffset.UtcNow
+            };
+        }
+
         [Fact]
         public void StatusSerializesCorrectly()
         {
@@ -34,13 +46,7 @@ namespace idunno.AtProto.Lexicons.Test.StatusSphere
 
             var status = new StatusphereStatus("😐", createdAt: dateTime);
 
-            JsonSerializerOptions jsonSerializerOptions = new(JsonSerializerDefaults.Web);
-            JsonSerializerOptions serializationOptions = jsonSerializerOptions;
-            {
-                serializationOptions.TypeInfoResolver = SourceGenerationContext.Default;
-            }
-
-            string json = JsonSerializer.Serialize(status, serializationOptions);
+            string json = JsonSerializer.Serialize(status, _lexiconSerializationOptions);
 
             JsonNode? jsonNode = JsonNode.Parse(json);
             Assert.NotNull(jsonNode);
@@ -67,17 +73,37 @@ namespace idunno.AtProto.Lexicons.Test.StatusSphere
         {
             string json = "{\"CreatedAt\":\"2026-01-01T00:00:00+00:00\",\"$type\":\"xyz.statusphere.status\",\"status\":\"\\uD83D\\uDE10\"}";
 
-            JsonSerializerOptions jsonSerializerOptions = new(JsonSerializerDefaults.Web);
-            JsonSerializerOptions serializationOptions = jsonSerializerOptions;
-            {
-                serializationOptions.TypeInfoResolver = SourceGenerationContext.Default;
-            }
-
-            StatusphereStatus? status = JsonSerializer.Deserialize<StatusphereStatus>(json, serializationOptions);
+            StatusphereStatus? status = JsonSerializer.Deserialize<StatusphereStatus>(json, _lexiconSerializationOptions);
 
             Assert.NotNull(status);
             Assert.Equal("😐", status.Status);
             Assert.Equal(new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero), status.CreatedAt);
+        }
+
+        [Fact]
+        public void DeserializationFailsWithMissingStatus()
+        {
+            string json = """
+                {
+                    "$type":"xyz.statusphere.status",
+                    "CreatedAt":"2026-01-01T00:00:00+00:00"
+                }
+                """;
+
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<StatusphereStatus>(json));
+        }
+
+        [Fact]
+        public void DeserializationFailsWithMissingCreatedAt()
+        {
+            string json = """
+                {
+                    "$type":"xyz.statusphere.status",
+                     "status":"😐",
+                }
+                """;
+
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<StatusphereStatus>(json));
         }
     }
 }

@@ -25,21 +25,17 @@ namespace idunno.AtProto.Lexicons.Statusphere.Xyz
         /// </summary>
         /// <param name="status">The status to create. Must be a minimum of 1 character, less that 32 characters and less than 1 grapheme.</param>
         [SetsRequiredMembers]
-        public StatusphereStatus(string status)
+        public StatusphereStatus(string status) : this(status, DateTimeOffset.UtcNow)
         {
-            Status = status;
-            CreatedAt = DateTimeOffset.UtcNow;
         }
-
 
         /// <summary>
         /// Creates a new instance of the <see cref="StatusphereStatus"/> class.
         /// </summary>
         /// <param name="status">The status to create. Must be a minimum of 1 character, less that 32 characters and less than 1 grapheme.</param>
         /// <param name="createdAt">The time the status was created.</param>
-        [JsonConstructor]
         [SetsRequiredMembers]
-        public StatusphereStatus(string status, DateTimeOffset createdAt)
+        public StatusphereStatus(string status, DateTimeOffset? createdAt)
         {
             Status = status;
             CreatedAt = createdAt;
@@ -75,6 +71,20 @@ namespace idunno.AtProto.Lexicons.Statusphere.Xyz
         /// <summary>
         /// Gets the date and time the status was created.
         /// </summary>
-        public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
+        [NotNull]
+        [SuppressMessage("Minor Code Smell", "S3236:Caller information arguments should not be provided explicitly", Justification = "Matches the parameter name to the property name for a clearer exception")]
+        public required DateTimeOffset? CreatedAt
+        {
+            get;
+            init
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException(nameof(CreatedAt));
+                }
+
+                field = value;
+            }
+        }
     }
 }

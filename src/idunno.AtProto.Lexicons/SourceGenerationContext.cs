@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System.Text.Json.Serialization;
+using idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks;
+using idunno.AtProto.Lexicons.Lexicon.Community.Location;
 using idunno.AtProto.Lexicons.Standard.Site;
 using idunno.AtProto.Lexicons.Statusphere.Xyz;
 using idunno.AtProto.Repo;
@@ -31,6 +33,19 @@ namespace idunno.AtProto.Lexicons
 
     [JsonSerializable(typeof(StatusphereStatus))]
     [JsonSerializable(typeof(AtProtoRepositoryRecord<StatusphereStatus>))]
+
+    [JsonSerializable(typeof(Bookmark))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<Bookmark>))]
+    [JsonSerializable(typeof(LocationBase))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<LocationBase>))]
+    [JsonSerializable(typeof(Address))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<Address>))]
+    [JsonSerializable(typeof(Fsq))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<Fsq>))]
+    [JsonSerializable(typeof(Geo))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<Geo>))]
+    [JsonSerializable(typeof(HThree))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<HThree>))]
     public partial class SourceGenerationContext : JsonSerializerContext
     {
     }

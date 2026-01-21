@@ -38,7 +38,7 @@ if (createResult.Succeeded)
 }
 ```
 Please see the [source repository](https://github.com/blowdart/idunno.AtProto.Lexicons) documentation for more detailed instructions.
-+-
+
 ## Version History
 
 A full [version history](https://github.com/blowdart/idunno.AtProto.Lexicons/blob/main/CHANGELOG.md) can be found on the project's

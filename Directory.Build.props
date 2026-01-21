@@ -1,6 +1,6 @@
 ﻿<Project>
   <PropertyGroup>
-    <Product>idunno.AtProto.Lexions: Custom lexicon implementations for idunno.AtProto.</Product>
+    <Product>idunno.AtProto.Lexicons: Custom lexicon implementations for idunno.AtProto.</Product>
     <MaintainerEmail>github.com@idunno.org</MaintainerEmail>
 
     <RepositoryUrl>https://github.com/blowdart/idunno.AtProto.Lexions</RepositoryUrl>
