@@ -14,15 +14,8 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <summary>
         /// Creates a new instance of the <see cref="Preferences"/> record.
         /// </summary>
-        public Preferences()
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="Preferences"/> record.
-        /// </summary>
         /// <param name="showInDiscover">Flag indicating whether the publication should appear in the discover feed.</param>
-        [SetsRequiredMembers]
+        [JsonConstructor]
         public Preferences(bool showInDiscover)
         {
             ShowInDiscover = showInDiscover;
@@ -39,6 +32,7 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <summary>
         /// Flag indicating whether the publication should appear in the discover feed.
         /// </summary>
-        public required bool ShowInDiscover { get; set; }
+        [JsonRequired]
+        public bool ShowInDiscover { get; set; }
     }
 }

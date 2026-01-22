@@ -18,16 +18,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks
         /// <summary>
         /// Creates a new instance of the <see cref="Bookmark"/> class.
         /// </summary>
-        public Bookmark()
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="Bookmark"/> class.
-        /// </summary>
         /// <param name="subject">The <see cref="Uri"/> to bookmark</param>
         /// <param name="tags">An optional set of tags for content the bookmark may be related to, for example 'news' or 'funny videos'</param>
-        [SetsRequiredMembers]
         public Bookmark(Uri subject, IEnumerable<string>? tags = null) : this(subject, DateTimeOffset.UtcNow, tags)
         {
         }
@@ -38,9 +30,11 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks
         /// <param name="subject">The <see cref="Uri"/> to bookmark</param>
         /// <param name="createdAt">The time the bookmark was created.</param>
         /// <param name="tags">An optional set of tags for content the bookmark may be related to, for example 'news' or 'funny videos'</param>
-        [SetsRequiredMembers]
-        public Bookmark(Uri subject, DateTimeOffset? createdAt, IEnumerable<string>? tags = null)
+        [JsonConstructor]
+        public Bookmark(Uri subject, DateTimeOffset createdAt, IEnumerable<string>? tags = null)
         {
+            ArgumentNullException.ThrowIfNull(subject);
+
             Subject = subject;
             CreatedAt = createdAt;
             Tags = tags;
@@ -57,7 +51,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks
         /// <summary>
         /// Gets or sets the link for the bookmark.
         /// </summary>
-        public required Uri Subject
+        [JsonRequired]
+        public Uri Subject
         {
             get;
 
@@ -72,27 +67,12 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks
         /// <summary>
         /// Gets an optional set of tags for content the bookmark may be related to, for example 'news' or 'funny videos'.
         /// </summary>
-        public IEnumerable<string>? Tags
-        {
-            get;
-            set; 
-        }
+        public IEnumerable<string>? Tags { get;set; }
 
         /// <summary>
         /// Gets the date and time the bookmark was created.
         /// </summary>
-        [NotNull]
-        public required DateTimeOffset? CreatedAt {
-            get;
-            init
-            {
-                if (value is null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                field = value;
-            }
-        }
+        [JsonRequired]
+        public DateTimeOffset CreatedAt { get; init; }
     }
 }

@@ -15,18 +15,11 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         /// <summary>
         /// Creates a new instance of <see cref="Fsq" />
         /// </summary>
-        public Fsq() : base()
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of <see cref="Fsq" />
-        /// </summary>
         /// <param name="fsqPlaceId">The unique identifier of a Foursquare POI.</param>
         /// <param name="name">The name of the location.</param>
         /// <param name="latitude">The latitude of the location, given in decimal degrees north.</param>
         /// <param name="longitude">The latitude of the location, given in decimal degrees east.</param>
-        [SetsRequiredMembers]
+        [JsonConstructor]
         public Fsq(string fsqPlaceId, string? name = null, string? latitude = null, string? longitude = null)
             : base(name)
         {
@@ -42,7 +35,6 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         /// <param name="name">The name of the location.</param>
         /// <param name="latitude">The latitude of the location, given in decimal degrees north.</param>
         /// <param name="longitude">The latitude of the location, given in decimal degrees east.</param>
-        [SetsRequiredMembers]
         public Fsq(string fsqPlaceId, float latitude, float longitude, string? name = null)
             : base(name)
         {
@@ -55,7 +47,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         /// The unique identifier of a Foursquare POI.
         /// </summary>
         [JsonPropertyName("fsq_place_id")]
-        public required string FsqPlaceId
+        [JsonRequired]
+        public string FsqPlaceId
         {
             get;
             set

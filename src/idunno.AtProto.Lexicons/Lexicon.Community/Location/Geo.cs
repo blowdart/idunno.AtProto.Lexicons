@@ -1,14 +1,8 @@
 ﻿// Copyright (c) Barry Dorrans. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
 {
@@ -18,20 +12,13 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
     public record Geo : LocationBase
     {
         /// <summary>
-        /// Creates a new instance of <see cref="Geo"/>.
-        /// </summary>
-        public Geo() : base()
-        {
-        }
-
-        /// <summary>
         /// Creates a new instance of <see cref="Geo"/>
         /// </summary>
         /// <param name="latitude">The latitude of the location, given in decimal degrees north.</param>
         /// <param name="longitude">The longitude of the location, given in decimal degrees east.</param>
         /// <param name="altitude">The altitude of the location, given in meters.</param>
         /// <param name="name">The name of the location.</param>
-        [SetsRequiredMembers]
+        [JsonConstructor]
         public Geo(string latitude, string longitude, string? altitude = null, string? name = null) : base(name)
         {
             Latitude = latitude;
@@ -46,7 +33,6 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         /// <param name="longitude">The longitude of the location, given in decimal degrees east.</param>
         /// <param name="altitude">The altitude of the location, given in meters.</param>
         /// <param name="name">The name of the location.</param>
-        [SetsRequiredMembers]
         public Geo(float latitude, float longitude, float? altitude = null, string? name = null) : base(name)
         {
             Latitude = latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
@@ -61,7 +47,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         /// The latitude of the location, given in decimal degrees north. Avoid using minutes and seconds (i.e. DMS) format.
         /// </summary>
         /// <remarks><para>Stored as strings, due to the exclusion of floating-point numbers from the ATProtocol data model</para></remarks>
-        public required string Latitude
+        [JsonRequired]
+        public string Latitude
         {
             get;
 
@@ -76,7 +63,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         /// The longitude of the location, given in decimal degrees east. Avoid using minutes and seconds (i.e. DMS) format.
         /// </summary>
         /// <remarks><para>Stored as strings, due to the exclusion of floating-point numbers from the ATProtocol data model</para></remarks>
-        public required string Longitude
+        [JsonRequired]
+        public string Longitude
         {
             get;
 

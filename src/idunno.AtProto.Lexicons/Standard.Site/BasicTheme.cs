@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace idunno.AtProto.Lexicons.Standard.Site
 {
@@ -17,9 +18,14 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <param name="foreground">Color used for content foreground.</param>
         /// <param name="accent">Color used for links and button background.</param>
         /// <param name="accentForeground">Color used for button text.</param>
-        [SetsRequiredMembers]
+        [JsonConstructor]
         public BasicTheme(ThemeColor background, ThemeColor foreground, ThemeColor accent, ThemeColor accentForeground)
         {
+            ArgumentNullException.ThrowIfNull(background);
+            ArgumentNullException.ThrowIfNull(foreground);
+            ArgumentNullException.ThrowIfNull(accent);
+            ArgumentNullException.ThrowIfNull(accentForeground);
+
             Background = background;
             Foreground = foreground;
             Accent = accent;
@@ -29,21 +35,25 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <summary>
         /// Color used for content background.
         /// </summary>
-        public required ThemeColor Background { get; set; }
+        [JsonRequired]
+        public ThemeColor Background { get; set; }
 
         /// <summary>
         /// Color used for content foreground.
         /// </summary>
-        public required ThemeColor Foreground { get; set; }
+        [JsonRequired]
+        public ThemeColor Foreground { get; set; }
 
         /// <summary>
         /// Color used for links and button background.
         /// </summary>
-        public required ThemeColor Accent { get; set; }
+        [JsonRequired]
+        public ThemeColor Accent { get; set; }
 
         /// <summary>
         /// Color used for button text.
         /// </summary>
-        public required ThemeColor AccentForeground { get; set ; }
+        [JsonRequired]
+        public ThemeColor AccentForeground { get; set ; }
     }
 }

@@ -15,6 +15,7 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
     [JsonDerivedType(typeof(Fsq), typeDiscriminator: "community.lexicon.location.fsq")]
     [JsonDerivedType(typeof(Geo), typeDiscriminator: "community.lexicon.location.geo")]
     [JsonDerivedType(typeof(HThree), typeDiscriminator: "community.lexicon.location.hthree")]
+    [JsonDerivedType(typeof(Calendar.EventUri), typeDiscriminator: "community.lexicon.calendar.event#uri")]
     public abstract record LocationBase : AtProtoRecord
     {
         /// <summary>

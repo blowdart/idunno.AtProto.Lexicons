@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
 {
@@ -10,13 +11,6 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
     /// </summary>
     public sealed record HThree : LocationBase
     {
-        /// <summary>
-        /// Creates a new instance of <see cref="HThree"/>.
-        /// </summary>
-        public HThree() : base()
-        {
-        }
-
         /// <summary>
         /// Creates a new instance of <see cref="HThree"/>
         /// </summary>
@@ -31,7 +25,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         /// <summary>
         /// Gets or sets the H3 encoded location.
         /// </summary>
-        public required string Value
+        [JsonRequired]
+        public string Value
         {
             get;
             set

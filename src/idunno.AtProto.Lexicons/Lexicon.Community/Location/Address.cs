@@ -14,13 +14,6 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         /// <summary>
         /// Creates a new instance of the <see cref="Address"/> class.
         /// </summary>
-        public Address() : base()
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="Address"/> class.
-        /// </summary>
         /// <param name="country">The ISO 3166 country code. Preferably the 2-letter code.</param>
         /// <param name="name">The name of the location.</param>
         /// <param name="postalCode">The postal code for the address.</param>
@@ -47,7 +40,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         /// <summary>
         /// Gets or sets the ISO 3166 country code. Preferably the 2-letter code.
         /// </summary>
-        public required string Country
+        [JsonRequired]
+        public string Country
         {
             get;
             set

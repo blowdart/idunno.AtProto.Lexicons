@@ -19,12 +19,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             string expectedTitle = "Example Title";
             var expectedPublishedAt = new DateTimeOffset(2026, 1, 1, 0, 0, 0, 0, new TimeSpan(0));
 
-            var document = new Document
-            {
-                Site = expectedSite,
-                Title = expectedTitle,
-                PublishedAt = expectedPublishedAt,
-            };
+            var document = new Document(expectedSite, expectedTitle, expectedPublishedAt);
 
             string json = JsonSerializer.Serialize(document, JsonSerializerOptions.Web);
 
@@ -43,12 +38,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             string expectedTitle = "Example Title";
             var expectedPublishedAt = new DateTimeOffset(2026, 1, 1, 0, 0, 0, 0, new TimeSpan(0));
 
-            var document = new Document
-            {
-                Site = expectedSite,
-                Title = expectedTitle,
-                PublishedAt = expectedPublishedAt,
-            };
+            var document = new Document(expectedSite, expectedTitle, expectedPublishedAt);
 
             string json = JsonSerializer.Serialize(document, JsonSerializerOptions.Web);
 

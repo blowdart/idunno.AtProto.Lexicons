@@ -16,10 +16,6 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
         public void AddressCanBeConstructedWithOnlyRequiredProperties()
         {
             _ = new Address("UK");
-            _ = new Address()
-            {
-                Country = "UK"
-            };
         }
 
         [Fact]
@@ -243,11 +239,6 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
         public void FsqCanBeConstructedWithOnlyRequiredProperties()
         {
             _ = new Fsq("FsqPlace");
-
-            _ = new Fsq()
-            {
-                FsqPlaceId = "FsqPlace"
-            };
         }
 
         [Fact]
@@ -365,12 +356,6 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
         [Fact]
         public void GeoCanBeConstructedWithOnlyRequiredProperties()
         {
-            _ = new Geo()
-            {
-                Latitude = "53.551667",
-                Longitude = "-2.683056"
-            };
-
             _ = new Geo("53.551667", "-2.683056");
             _ = new Geo(53.551667f, -2.683056f);
         }
@@ -504,11 +489,6 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
         [Fact]
         public void HThreeCanBeConstructedWithOnlyRequiredProperties()
         {
-            _ = new HThree()
-            {
-                Value = "///rapport.spoiler.truffles"
-            };
-
             _ = new HThree("///rapport.spoiler.truffles");
         }
 

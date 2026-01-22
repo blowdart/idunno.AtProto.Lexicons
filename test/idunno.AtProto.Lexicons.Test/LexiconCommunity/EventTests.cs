@@ -6,6 +6,7 @@ using System.Text.Json.Nodes;
 
 using idunno.AtProto.Lexicons.Lexicon.Community.Calendar;
 using idunno.AtProto.Lexicons.Lexicon.Community.Location;
+using idunno.AtProto.Repo;
 
 namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
 {
@@ -17,12 +18,6 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
         public void EventCanBeConstructedWithOnlyRequiredProperties()
         {
             _ = new Event("Sample Event", DateTimeOffset.UtcNow);
-
-            _ = new Event
-            {
-                Name = "Sample Event",
-                CreatedAt = DateTimeOffset.UtcNow
-            };
         }
 
         [Fact]
@@ -55,26 +50,16 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
 
             var expectedLocations = new LocationBase[]
             {
-                new EventUri
-                {
-                    Name = "BeansCon2020",
-                    Uri = new Uri("https://conference2026.example.com/")
-                },
-                new Fsq
-                {
-                    FsqPlaceId = "FsqPlace",
-                    Name = "H. J. Heinz, Wigan",
-                    Latitude = "53.551667",
-                    Longitude = "-2.683056"
-                }
+                new EventUri(name: "BeansCon2020", uri: new Uri("https://conference2026.example.com/")),
+                new Fsq(fsqPlaceId: "FsqPlace",
+                    name : "H. J. Heinz, Wigan",
+                    latitude : "53.551667",
+                    longitude : "-2.683056")
             };
 
             var expectedUris = new EventUri[]
             {
-                new() {
-                    Name = "BeansCon2020",
-                    Uri = new Uri("https://conference2026.example.com/")
-                }
+                new (name: "BeansCon2020", uri: new Uri("https://conference2026.example.com/"))
             };
 
             var expected = new Event(
@@ -120,12 +105,17 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
         }
 
         [Fact]
-        public void EventWithEventUriLocationDeserializesCorrectly()
+        public void FullyPopulatedJsonDeserializesCorrectly()
         {
             string expected = """
                 {
                     "name": "Conference 2026",
                     "createdAt": "2026-05-15T09:00:00+00:00",
+                    "description": "An example conference.",
+                    "startsAt": "2026-06-01T09:00:00+00:00",
+                    "endsAt": "2026-06-01T17:00:00+00:00",
+                    "mode": "community.lexicon.calendar.event#hybrid",
+                    "status": "community.lexicon.calendar.event#scheduled",
                     "locations": [
                         {
                             "$type": "community.lexicon.calendar.event#uri",
@@ -152,7 +142,14 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
 
             Event? actual = JsonSerializer.Deserialize<Event>(expected, _lexiconSerializationOptions);
 
-            Assert.NotNull(actual);
+            Assert.Equal("Conference 2026", actual!.Name);
+            Assert.Equal(new DateTimeOffset(2026, 05, 15, 9, 0, 0, new TimeSpan(0)), actual!.CreatedAt);
+            Assert.Equal("An example conference.", actual.Description);
+            Assert.Equal(new DateTimeOffset(2026, 06, 01, 9, 0, 0, new TimeSpan(0)), actual!.StartsAt);
+            Assert.Equal(new DateTimeOffset(2026, 06, 01, 17, 0, 0, new TimeSpan(0)), actual!.EndsAt);
+            Assert.Equal(EventMode.Hybrid, actual.Mode);
+            Assert.Equal(EventStatus.Scheduled, actual.Status);
+
             Assert.Collection(actual.Locations!,
                 location =>
                 {
@@ -169,7 +166,46 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
                     Assert.Equal("53.551667", fsqLocation.Latitude);
                     Assert.Equal("-2.683056", fsqLocation.Longitude);
                 });
+
+            EventUri actualEventUri = Assert.Single(actual.Uris!);
+            Assert.Equal("BeansCon2020", actualEventUri.Name);
+            Assert.Equal("https://conference2026.example.com/", actualEventUri.Uri.ToString());
         }
 
+        [Fact]
+        public void DeserializationFailsWhenCreatedAtIsMissing()
+        {
+            string json = """
+                {
+                    "name": "Conference 2026",
+                    "description": "An example conference."
+                }
+                """;
+
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Event>(json));
+        }
+
+        [Fact]
+        public void DeserializationFailsWhenNameIsMissing()
+        {
+            string json = """
+                {
+                    "createdAt": "2026-05-15T09:00:00+00:00",
+                    "description": "An example conference."
+                }
+                """;
+
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Event>(json));
+        }
+
+        [Fact]
+        public void RsvpCanBeCreatedWithOnlyRequiredProperties()
+        {
+            _ = new Rsvp(
+                new StrongReference(
+                    "at://user.bsky.social/com.example.events/record",
+                    "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"),
+                RsvpStatus.Interested);
+        }
     }
 }

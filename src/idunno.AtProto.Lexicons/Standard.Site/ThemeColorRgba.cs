@@ -18,7 +18,6 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <param name="green">The green value for the color.</param>
         /// <param name="blue">The blue value for the color.</param>
         /// <param name="alpha">The alpha value for the color.</param>
-        [SetsRequiredMembers]
         public ThemeColorRgba(int red, int green, int blue, int alpha) : base(red, green, blue)
         {
             ArgumentOutOfRangeException.ThrowIfNegative(alpha);
@@ -30,14 +29,14 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// The alpha value of the color.
         /// </summary>
         [JsonPropertyName("a")]
-        [SuppressMessage("Minor Code Smell", "S3236:Caller information arguments should not be provided explicitly", Justification = "Matches the parameter name to the property name for a clearer exception")]
-        public required int Alpha
+        [JsonRequired]
+        public int Alpha
         {
             get;
             set
             {
-                ArgumentOutOfRangeException.ThrowIfNegative(value, nameof(Alpha));
-                ArgumentOutOfRangeException.ThrowIfGreaterThan(value, 100, nameof(Alpha));
+                ArgumentOutOfRangeException.ThrowIfNegative(value);
+                ArgumentOutOfRangeException.ThrowIfGreaterThan(value, 100);
                 field = value;
             }
         }

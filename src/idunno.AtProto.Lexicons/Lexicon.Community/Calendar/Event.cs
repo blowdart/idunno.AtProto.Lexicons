@@ -15,13 +15,6 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
     public record Event : AtProtoRecord
     {
         /// <summary>
-        /// Creates a new instance of <see cref="Event"/>.
-        /// </summary>
-        public Event()
-        {
-        }
-
-        /// <summary>
         /// Creates a new instance of<see cref="Event"/>.
         /// </summary>
         /// <param name="name">The name of the event.</param>
@@ -33,7 +26,7 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
         /// <param name="status">The status of the event.</param>
         /// <param name="locations">The locations where the event takes place.</param>
         /// <param name="uris">URIs associated with the event.</param>
-        [SetsRequiredMembers]
+        [JsonConstructor]
         public Event(
             string name,
             DateTimeOffset createdAt,
@@ -59,7 +52,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
         /// <summary>
         /// Gets or sets the name of the event.
         /// </summary>
-        public required string Name
+        [JsonRequired]
+        public string Name
         {
             get;
             set
@@ -78,20 +72,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
         /// <summary>
         /// Gets client declared date and time the event was created.
         /// </summary>
-        [NotNull]
-        public required DateTimeOffset? CreatedAt
-        {
-            get;
-            init
-            {
-                if (value is null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                field = value;
-            }
-        }
+        [JsonRequired]
+        public DateTimeOffset CreatedAt { get; init; }
 
         /// <summary>
         /// Gets or sets the client-declared timestamp when the event starts.

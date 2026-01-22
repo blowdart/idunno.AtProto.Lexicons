@@ -3,6 +3,7 @@
 
 using System.Text.Json.Serialization;
 using idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks;
+using idunno.AtProto.Lexicons.Lexicon.Community.Calendar;
 using idunno.AtProto.Lexicons.Lexicon.Community.Location;
 using idunno.AtProto.Lexicons.Standard.Site;
 using idunno.AtProto.Lexicons.Statusphere.Xyz;
@@ -19,6 +20,7 @@ namespace idunno.AtProto.Lexicons
         NumberHandling = JsonNumberHandling.AllowReadingFromString,
         PropertyNameCaseInsensitive = true,
         PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+        RespectNullableAnnotations = true,
         RespectRequiredConstructorParameters = true,
         UseStringEnumConverter = true,
         WriteIndented = false)]
@@ -46,6 +48,13 @@ namespace idunno.AtProto.Lexicons
     [JsonSerializable(typeof(AtProtoRepositoryRecord<Geo>))]
     [JsonSerializable(typeof(HThree))]
     [JsonSerializable(typeof(AtProtoRepositoryRecord<HThree>))]
+    [JsonSerializable(typeof(Event))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<Event>))]
+    [JsonSerializable(typeof(EventStatus))]
+    [JsonSerializable(typeof(EventUri))]
+    [JsonSerializable(typeof(Rsvp))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<Rsvp>))]
+
     internal sealed partial class SourceGenerationContext : JsonSerializerContext
     {
     }

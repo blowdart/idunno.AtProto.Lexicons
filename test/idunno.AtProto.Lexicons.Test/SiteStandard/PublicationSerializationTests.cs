@@ -385,7 +385,10 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
                 {"$type":"site.standard.publication","url":"https://standard.site","name":"Test Publication"}
                 """;
 
-            string actual = JsonSerializer.Serialize(publication, _lexiconSerializationOptions);
+            var jsonSerializerOptions = new JsonSerializerOptions(_lexiconSerializationOptions);
+            jsonSerializerOptions.InsertJsonInfoTypeResolver(SiteStandardTestSourceGenerationContext.Default);
+
+            string actual = JsonSerializer.Serialize(publication, jsonSerializerOptions);
 
             Assert.Equal(expected, actual);
         }
@@ -401,7 +404,10 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
                 {"$type":"site.standard.publication","url":"https://standard.site","name":"Test Publication","preferences":{"showComments":true,"showInDiscover":true}}
                 """;
 
-            string actual = JsonSerializer.Serialize(publication, _lexiconSerializationOptions);
+            var jsonSerializerOptions = new JsonSerializerOptions(_lexiconSerializationOptions);
+            jsonSerializerOptions.InsertJsonInfoTypeResolver(SiteStandardTestSourceGenerationContext.Default);
+
+            string actual = JsonSerializer.Serialize(publication, jsonSerializerOptions);
 
             Assert.Equal(expected, actual);
         }
@@ -409,7 +415,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
 
     internal record CustomPreferences : Lexicons.Standard.Site.Preferences
     {
-        [SetsRequiredMembers]
+        [JsonConstructor]
         public CustomPreferences(bool showInDiscover, bool showComments) : base(showInDiscover)
         {
             ShowComments = showComments;

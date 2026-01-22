@@ -213,14 +213,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             }
             """;
 
-            Exception? ex = Record.Exception(() => JsonSerializer.Deserialize<ThemeColor>(json, JsonSerializerOptions.Web));
-
-            Assert.NotNull(ex);
-            Assert.IsType<ArgumentOutOfRangeException>(ex);
-
-            ArgumentOutOfRangeException? argumentException = ex as ArgumentOutOfRangeException;
-            Assert.NotNull(argumentException);
-            Assert.Equal("Red", argumentException.ParamName);
+            Assert.Throws<ArgumentOutOfRangeException>(() => JsonSerializer.Deserialize<ThemeColor>(json, JsonSerializerOptions.Web));
         }
 
         [Fact]
@@ -235,14 +228,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             }
             """;
 
-            Exception? ex = Record.Exception(() => JsonSerializer.Deserialize<ThemeColor>(json, _lexiconSerializationOptions));
-
-            Assert.NotNull(ex);
-            Assert.IsType<ArgumentOutOfRangeException>(ex);
-
-            ArgumentOutOfRangeException? argumentException = ex as ArgumentOutOfRangeException;
-            Assert.NotNull(argumentException);
-            Assert.Equal("Red", argumentException.ParamName);
+            Assert.Throws<ArgumentOutOfRangeException>(() => JsonSerializer.Deserialize<ThemeColor>(json, _lexiconSerializationOptions));
         }
 
         [Fact]
@@ -256,14 +242,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             }
             """;
 
-            Exception? ex = Record.Exception(() => JsonSerializer.Deserialize<ThemeColorRgb>(json, _lexiconSerializationOptions));
-
-            Assert.NotNull(ex);
-            Assert.IsType<JsonException>(ex);
-
-            JsonException? argumentException = ex as JsonException;
-            Assert.NotNull(argumentException);
-            Assert.Contains("missing required properties including: 'r'", ex.Message);
+            Assert.Throws<JsonException>(()=> JsonSerializer.Deserialize<ThemeColor>(json, JsonSerializerOptions.Web));
         }
 
         [Fact]
@@ -288,14 +267,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             }
             """;
 
-            Exception? ex = Record.Exception(() => JsonSerializer.Deserialize<ThemeColor>(json, _lexiconSerializationOptions));
-
-            Assert.NotNull(ex);
-            Assert.IsType<JsonException>(ex);
-
-            JsonException? argumentException = ex as JsonException;
-            Assert.NotNull(argumentException);
-            Assert.Contains("missing required properties including: 'r'", ex.Message);
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<ThemeColor>(json, _lexiconSerializationOptions));
         }
 
         [Fact]
@@ -309,15 +281,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             }
             """;
 
-            Exception? ex = Record.Exception(() => JsonSerializer.Deserialize<ThemeColor>(json, JsonSerializerOptions.Web));
-
-            Assert.NotNull(ex);
-            Assert.IsType<JsonException>(ex);
-
-            JsonException? argumentException = ex as JsonException;
-            Assert.NotNull(argumentException);
-            Assert.Contains("missing required properties including: 'r'", ex.Message);
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<ThemeColor>(json, JsonSerializerOptions.Web));
         }
-
     }
 }

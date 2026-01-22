@@ -50,30 +50,19 @@ e.g. `MyApp.Example`, so name your folder with idiomatic .NET naming.
 * Implement each lexicon record as a C# record in a file named after the record.
 * **Ensure** you inherit from `AtProtoRecord` for records that are atproto records.
 * Do **not** use primary constructors in your records
-* **Ensure** you have a parameter-less constructer
-* **Ensure** you have a constructor that takes all `required` properties as parameters and is decorated`[SetsRequiredMembers]`.
-* Do **not** mark any constructors as `[JsonConstructor]`, doing so allows a clearer `JsonException` to be raised during deserialization.
+* **Ensure** you have a constructor that takes all record properties as parameters and is decorated with `[JsonConstructor]` and `[SetsRequiredMembers]`.
+* **Ensure** you have a `[JsonConstructor]` marked constructor validates its parameters.
 * Add any necessary attributes to your record properties , such as `[JsonInclude]` or [`JsonPropertyName`].
+* **Ensure** you mark required properties as `[JsonRequired]`
 * **Ensure** you use `DateTimeOffset` for date/time properties.
-* Decorate any required properties with `required`.
-  * For required Date/Time properties such as `CreatedAt` and `UpdatedAt` properties **ensure** you
-  * Make the property type `DateTimeOffset?`
-  * Mark the property as `[NotNull]`.
-  * Make the property `required`.
-  * Do not set a default value on the property itself.
-  * In constructors that take a value for the property make the parameter `DateTimeOffset?`
-  * In the `init` or `set` for the property validate that `value` is not null.
-  * If appropriate, set the property to `DateTimeOffset.UtcNow` in the parameter-less constructor and
-    any constructor you do not take the value as a parameter.
-  * If the lexicon requires a json $type attribute implement one like this
+* If the lexicon requires a json $type property and the class is not used in polymorphic scenarios implement one like this:
     ```csharp
     [JsonInclude]
     [JsonPropertyName("$type")]
     public string Type { get; init; } = "com.example.myapp.typeName";
     ```
 * Decorate any optional properties `[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]`.
-* **Ensure** you have validation for each property that needs it in the record in the `set` or `init` for the property.
-* **Ensure** you have a parameter-less constructor to allow for `new MyClass { PropertyName = 'beans' }` type syntax.
+* **Ensure** you have validation for each property that is settable in the `set` for the property.
 * Avoid naming any class `Value` as this leads to ugly syntax when setting properties in `AtRepositoryRecord<>` usage.
 * Add any ancillary records/classes your records require.
 * **Ensure** your records and ancillary records or classes to `SourceGenerationContext.cs` as `JsonSerializable` attributes.

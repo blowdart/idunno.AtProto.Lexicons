@@ -15,11 +15,6 @@ namespace idunno.AtProto.Lexicons.Test.Statusphere
         public void ConstructorsEnforceRequiredFields()
         {
             _ = new StatusphereStatus("😐");
-            _ = new StatusphereStatus
-            {
-                Status = "😐",
-                CreatedAt = DateTimeOffset.UtcNow
-            };
         }
 
         [Fact]
@@ -59,9 +54,14 @@ namespace idunno.AtProto.Lexicons.Test.Statusphere
         [Fact]
         public void StatusDeserializesCorrectly()
         {
-            string json = "{\"CreatedAt\":\"2026-01-01T00:00:00+00:00\",\"$type\":\"xyz.statusphere.status\",\"status\":\"\\uD83D\\uDE10\"}";
+            string json = """
+                {
+                    "createdAt":"2026-01-01T00:00:00+00:00",
+                    "status":"\uD83D\uDE10"
+                }
+                """;
 
-            StatusphereStatus? status = JsonSerializer.Deserialize<StatusphereStatus>(json);
+            StatusphereStatus? status = JsonSerializer.Deserialize<StatusphereStatus>(json, _lexiconSerializationOptions);
 
             Assert.NotNull(status);
             Assert.Equal("😐", status.Status);
@@ -71,7 +71,13 @@ namespace idunno.AtProto.Lexicons.Test.Statusphere
         [Fact]
         public void StatusDeserializesWithTypeInfo()
         {
-            string json = "{\"CreatedAt\":\"2026-01-01T00:00:00+00:00\",\"$type\":\"xyz.statusphere.status\",\"status\":\"\\uD83D\\uDE10\"}";
+            string json = """
+                {
+                    "$type":"xyz.statusphere.status",
+                    "createdAt":"2026-01-01T00:00:00+00:00",
+                    "status":"\uD83D\uDE10"
+                }
+                """;
 
             StatusphereStatus? status = JsonSerializer.Deserialize<StatusphereStatus>(json, _lexiconSerializationOptions);
 
@@ -90,7 +96,7 @@ namespace idunno.AtProto.Lexicons.Test.Statusphere
                 }
                 """;
 
-            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<StatusphereStatus>(json));
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<StatusphereStatus>(json, _lexiconSerializationOptions));
         }
 
         [Fact]
@@ -99,11 +105,11 @@ namespace idunno.AtProto.Lexicons.Test.Statusphere
             string json = """
                 {
                     "$type":"xyz.statusphere.status",
-                     "status":"😐",
+                     "status":"😐"
                 }
                 """;
 
-            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<StatusphereStatus>(json));
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<StatusphereStatus>(json, _lexiconSerializationOptions));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Barry Dorrans. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Text.Json.Serialization;
 using idunno.AtProto.Lexicons.Standard.Site;
 
 using idunno.AtProto.Repo;
@@ -96,12 +97,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
     [ExcludeFromCodeCoverage]
     internal record class TestPreferences: Preferences
     {
-        public TestPreferences() : base()
-        {
-
-        }
-
-        [SetsRequiredMembers]
+        [JsonConstructor]
         public TestPreferences(bool showInDiscover) : base(showInDiscover)
         {
         }

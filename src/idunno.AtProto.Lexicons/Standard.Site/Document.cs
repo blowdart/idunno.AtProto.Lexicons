@@ -18,13 +18,6 @@ namespace idunno.AtProto.Lexicons.Standard.Site
     public record Document : Document<JsonNode>
     {
         /// <summary>
-        /// Creates a new <see cref="Document"/> encapsulating what content contains.
-        /// </summary>
-        public Document()
-        {
-        }
-
-        /// <summary>
         /// Creates a new <see cref="Document"/> encapsulating what content contains, where content is mapped to a <see cref="JsonNode"/>.
         /// </summary>
         /// <param name="site">Points to a publication record (at://) or a publication url (https://) for loose documents. Avoid trailing slashes.</param>
@@ -45,7 +38,7 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// </para>
         /// <para>See <see href="https://standard.site"/></para>
         /// </remarks>
-        [SetsRequiredMembers]
+        [JsonConstructor]
         public Document(
             string site,
             string title,
@@ -93,7 +86,6 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// </para>
         /// <para>See <see href="https://standard.site"/></para>
         /// </remarks>
-        [SetsRequiredMembers]
         public Document(
             Uri site,
             string title,
@@ -141,7 +133,6 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// </para>
         /// <para>See <see href="https://standard.site"/></para>
         /// </remarks>
-        [SetsRequiredMembers]
         public Document(
             AtUri site,
             string title,
@@ -180,13 +171,6 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <summary>
         /// Creates a new <see cref="Document{T}"/> encapsulating what content contains.
         /// </summary>
-        public Document()
-        {
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="Document{T}"/> encapsulating what content contains.
-        /// </summary>
         /// <param name="site">Points to a publication record (at://) or a publication url (https://) for loose documents. Avoid trailing slashes.</param>
         /// <param name="path">Optional path that is combined with site or publication url to construct a canonical URL to the document. Prepend with a leading slash.</param>
         /// <param name="publishedAt">Timestamp of the documents publish time.</param>
@@ -205,7 +189,7 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// </para>
         /// <para>See <see href="https://standard.site"/></para>
         /// </remarks>
-        [SetsRequiredMembers]
+        [JsonConstructor]
         public Document(
             string site,
             string title,
@@ -217,8 +201,11 @@ namespace idunno.AtProto.Lexicons.Standard.Site
             string? textContent = null,
             StrongReference? bskyPostRef = null,
             IEnumerable<string>? tags = null,
-            DateTimeOffset? updatedAt = null)
+            DateTimeOffset? updatedAt = null) 
         {
+            ArgumentNullException.ThrowIfNull(site);
+            ArgumentNullException.ThrowIfNull(title);
+
             Site = site;
             Title = title;
             PublishedAt = publishedAt;
@@ -259,7 +246,6 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// </para>
         /// <para>See <see href="https://standard.site"/></para>
         /// </remarks>
-        [SetsRequiredMembers]
         public Document(
             Uri site,
             string title,
@@ -274,6 +260,7 @@ namespace idunno.AtProto.Lexicons.Standard.Site
             DateTimeOffset? updatedAt = null)
         {
             ArgumentNullException.ThrowIfNull(site);
+            ArgumentNullException.ThrowIfNull(title);
 
             string convertedSite = site.ToString();
             convertedSite = convertedSite.EndsWith('/') ? convertedSite.Substring(0, convertedSite.Length - 1) : convertedSite;
@@ -318,7 +305,6 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// </para>
         /// <para>See <see href="https://standard.site"/></para>
         /// </remarks>
-        [SetsRequiredMembers]
         public Document(
             AtUri site,
             string title,
@@ -333,6 +319,7 @@ namespace idunno.AtProto.Lexicons.Standard.Site
             DateTimeOffset? updatedAt = null)
         {
             ArgumentNullException.ThrowIfNull(site);
+            ArgumentNullException.ThrowIfNull(title);
 
             string convertedSite = site.ToString();
             convertedSite = convertedSite.EndsWith('/') ? convertedSite.Substring(0, convertedSite.Length - 1) : convertedSite;
@@ -375,7 +362,8 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <summary>
         /// Points to a publication record (at://) or a publication url (https://) for loose documents. Avoid trailing slashes.
         /// </summary>
-        public required string Site
+        [JsonRequired]
+        public string Site
         {
             get;
 
@@ -426,7 +414,8 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// The title of the document.
         /// </summary>
         [SuppressMessage("Minor Code Smell", "S3236:Caller information arguments should not be provided explicitly", Justification = "Matches the parameter name to the property name for a clearer exception")]
-        public required string Title
+        [JsonRequired]
+        public string Title
         {
             get;
             init
@@ -511,20 +500,8 @@ namespace idunno.AtProto.Lexicons.Standard.Site
         /// <summary>
         /// Timestamp of the documents publish time.
         /// </summary>
-        [NotNull]
-        [SuppressMessage("Minor Code Smell", "S3236:Caller information arguments should not be provided explicitly", Justification = "Matches the parameter name to the property name for a clearer exception")]
-        public required DateTimeOffset? PublishedAt {
-            get;
-            init
-            {
-                if (value is null)
-                {
-                    throw new ArgumentNullException(nameof(PublishedAt));
-                }
-
-                field = value;
-            }
-        }
+        [JsonRequired]
+        public DateTimeOffset PublishedAt { get; init; }
 
         /// <summary>
         /// Timestamp of the documents last edit, if any.
