@@ -46,7 +46,7 @@ namespace idunno.AtProto.Lexicons
     [JsonSerializable(typeof(AtProtoRepositoryRecord<Geo>))]
     [JsonSerializable(typeof(HThree))]
     [JsonSerializable(typeof(AtProtoRepositoryRecord<HThree>))]
-    public partial class SourceGenerationContext : JsonSerializerContext
+    internal sealed partial class SourceGenerationContext : JsonSerializerContext
     {
     }
 }

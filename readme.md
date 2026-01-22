@@ -75,15 +75,8 @@ Please see the [documentation](https://bluesky.idunno.dev/) for much more docume
 
 ### JSON Source Generation support
 
-The library contains a source-generated `JsonSerializerContext`. To use it, create a `JsonSerializerOptions` from the
-`idunno.AtProto` library and insert the library type resolver like so:
-
-```c#
-var serializerOptions = AtProtoJsonSerializerOptions.Options;
-serializerOptions.InsertTypeResolver(SourceGenerationContext.Default);
-```
-
-then pass the options to the `CreateRecord`, `ListRecords`, `PutRecord `or `ApplyWrites` methods
+The library contains a source-generated `JsonSerializerOptions`, `LexiconJsonSerializerOptions.Default`.
+You pass the options to the `CreateRecord`, `ListRecords`, `PutRecord `or `ApplyWrites` methods
 
 ```c#
 var createResult =
@@ -92,7 +85,7 @@ var createResult =
     collection: StatusphereConstants.Collection,
     rKey: TimestampIdentifier.Next(),
     validate: false,
-    jsonSerializerOptions: serializerOptions);
+    jsonSerializerOptions: LexiconJsonSerializerOptions.Default);
 ```
 
 ## Avoiding using an agent
