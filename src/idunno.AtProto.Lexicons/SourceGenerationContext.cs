@@ -4,7 +4,9 @@
 using System.Text.Json.Serialization;
 using idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks;
 using idunno.AtProto.Lexicons.Lexicon.Community.Calendar;
+using idunno.AtProto.Lexicons.Lexicon.Community.Interaction;
 using idunno.AtProto.Lexicons.Lexicon.Community.Location;
+using idunno.AtProto.Lexicons.Lexicon.Community.Payments;
 using idunno.AtProto.Lexicons.Standard.Site;
 using idunno.AtProto.Lexicons.Statusphere.Xyz;
 using idunno.AtProto.Repo;
@@ -54,6 +56,10 @@ namespace idunno.AtProto.Lexicons
     [JsonSerializable(typeof(EventUri))]
     [JsonSerializable(typeof(Rsvp))]
     [JsonSerializable(typeof(AtProtoRepositoryRecord<Rsvp>))]
+    [JsonSerializable(typeof(WebMonetization))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<WebMonetization>))]
+    [JsonSerializable(typeof(Like))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<Like>))]
 
     internal sealed partial class SourceGenerationContext : JsonSerializerContext
     {

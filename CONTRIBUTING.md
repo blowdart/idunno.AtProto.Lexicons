@@ -79,8 +79,8 @@ e.g. `MyApp.Example`, so name your folder with idiomatic .NET naming.
 * Write tests
 * Add a new test class in the `tests/idunno.AtProto.Lexicons.Tests` project named after your lexicon, e.g. `MyAppTests.cs`.
 * For each record in your lexicon add tests for:
-  * Serialization with and without a type resolver
-  * Deserialization with and without a type resolver
+  * Serialization with and without the default `JsonSerializerOptions.Web` serializer options
+  * Deserialization with and without `LexiconJsonSerializerOptions.Default` serializer options
   * Property validation
   * Deserialization of invalid data, e.g. missing required properties, ensuring appropriate exceptions are thrown.
 

@@ -17,11 +17,19 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
         /// </summary>
         /// <param name="subject">The subject of the RSVP.</param>
         /// <param name="status">The status of the RSVP.</param>
+        [JsonConstructor]
         public Rsvp(StrongReference subject, RsvpStatus status)
         {
             Subject = subject;
             Status = status;
         }
+
+        /// <summary>
+        /// Gets and sets the lexicon type identifier for the record.
+        /// </summary>
+        [JsonInclude]
+        [JsonPropertyName("$type")]
+        public string Type { get; init; } = "community.lexicon.calendar.rsvp";
 
         /// <summary>
         /// Gets the subject of the Rsvp. This property is required.

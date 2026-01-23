@@ -50,6 +50,13 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
         }
 
         /// <summary>
+        /// Gets and sets the lexicon type identifier for the record.
+        /// </summary>
+        [JsonInclude]
+        [JsonPropertyName("$type")]
+        public string Type { get; init; } = "community.lexicon.calendar.event";
+
+        /// <summary>
         /// Gets or sets the name of the event.
         /// </summary>
         [JsonRequired]

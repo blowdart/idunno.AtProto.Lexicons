@@ -110,12 +110,7 @@ namespace Samples.AgentBasedStatusphere
                 var serializerOptions = LexiconJsonSerializerOptions.Default;
 
                 // Create a new status instance
-                var status = new StatusphereStatus
-                {
-                    Status = "😁",
-                    CreatedAt = DateTimeOffset.UtcNow
-
-                };
+                var status = new StatusphereStatus("😁");
 
                 /// Create a record status via the agent and the bsky app view, with the jsonSerializerOptions we created previously.
                 var createResult = await agent.CreateRecord(

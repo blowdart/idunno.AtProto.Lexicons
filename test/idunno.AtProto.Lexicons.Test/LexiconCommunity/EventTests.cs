@@ -35,6 +35,7 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
             JsonNode? actual = JsonNode.Parse(json);
             Assert.NotNull(actual);
 
+            Assert.Equal("community.lexicon.calendar.event", actual!["$type"]!.GetValue<string>());
             Assert.Equal(expectedEventName, actual["name"]!.GetValue<string>());
             Assert.Equal("2026-01-01T00:00:00+00:00", actual["createdAt"]!.GetValue<string>());
         }
@@ -77,6 +78,7 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
             JsonNode? actual = JsonNode.Parse(json);
 
             Assert.NotNull(actual);
+            Assert.Equal("community.lexicon.calendar.event", actual!["$type"]!.GetValue<string>());
             Assert.Equal(expectedEventName, actual["name"]!.GetValue<string>());
             Assert.Equal(expectedCreatedAt, actual["createdAt"]!.GetValue<DateTimeOffset>());
             Assert.Equal(expectedDescription, actual["description"]!.GetValue<string>());
@@ -206,6 +208,78 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
                     "at://user.bsky.social/com.example.events/record",
                     "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"),
                 RsvpStatus.Interested);
+        }
+
+        [Fact]
+        public void RsvpSerializesCorrectly()
+        {
+            StrongReference expectedRecordRef = new(
+                "at://user.bsky.social/com.example.events/record",
+                "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi");
+            RsvpStatus expectedStatus = RsvpStatus.Interested;
+            Rsvp expected = new(
+                expectedRecordRef,
+                expectedStatus);
+
+            string json = JsonSerializer.Serialize(expected, _lexiconSerializationOptions);
+
+            JsonNode? actual = JsonNode.Parse(json);
+            Assert.Equal("community.lexicon.calendar.rsvp", actual!["$type"]!.GetValue<string>());
+
+            Assert.Equal("community.lexicon.calendar.rsvp#interested", actual!["status"]!.GetValue<string>());
+
+            JsonNode? recordRefNode = actual["subject"]!;
+
+            StrongReference? actualRecordRef = JsonSerializer.Deserialize<StrongReference>(recordRefNode!, _lexiconSerializationOptions);
+            Assert.Equal(expectedRecordRef, actualRecordRef);
+        }
+
+        [Fact]
+        public void RsvpDeserializesCorrectly()
+        {
+            string json = """
+                {
+                    "$type": "community.lexicon.calendar.rsvp",
+                    "subject": {
+                        "uri": "at://user.bsky.social/com.example.events/record",
+                        "cid": "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"
+                    },
+                    "status": "community.lexicon.calendar.rsvp#interested"
+                }
+                """;
+            Rsvp? actual = JsonSerializer.Deserialize<Rsvp>(json, _lexiconSerializationOptions);
+            StrongReference expectedRecordRef = new(
+                "at://user.bsky.social/com.example.events/record",
+                "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi");
+            Assert.Equal(expectedRecordRef, actual!.Subject);
+            Assert.Equal(RsvpStatus.Interested, actual.Status);
+        }
+
+        [Fact]
+        public void RsvpDeserializationFailsWhenSubjectIsMissing()
+        {
+            string json = """
+                {
+                    "$type": "community.lexicon.calendar.rsvp",
+                    "status": "community.lexicon.calendar.rsvp#interested"
+                }
+                """;
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Rsvp>(json, _lexiconSerializationOptions));
+        }
+
+        [Fact]
+        public void RsvpDeserializationFailsWhenStatusIsMissing()
+        {
+            string json = """
+                {
+                    "$type": "community.lexicon.calendar.rsvp",
+                    "subject": {
+                        "uri": "at://user.bsky.social/com.example.events/record",
+                        "cid": "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"
+                    }
+                }
+                """;
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Rsvp>(json, _lexiconSerializationOptions));
         }
     }
 }

@@ -138,11 +138,7 @@ namespace Samples.PdsDirectStatusphere
                 var accessCredentials = createSessionResult.Result.ToAccessCredentials(pds);
 
                 // Create a new status instance
-                var status = new StatusphereStatus
-                {
-                    Status = "😁",
-                    CreatedAt = DateTimeOffset.UtcNow,
-                };
+                var status = new StatusphereStatus("😁");
 
                 var createRecordResult = await AtProtoServer.CreateRecord(
                     record: status,
