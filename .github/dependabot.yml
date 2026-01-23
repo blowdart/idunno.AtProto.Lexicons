@@ -1,0 +1,25 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+  # Disable update notifications, except for security updates.
+  # See https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference#open-pull-requests-limit-
+  open-pull-requests-limit: 0
+  cooldown:
+    default-days: 7
+  ignore:
+    - dependency-name: "Microsoft.AspNetCore.TestHost"
+      update-types: ["version-update:semver-major"]
+    - dependency-name: "Microsoft.Extensions.Logging"
+      update-types: ["version-update:semver-major"]
+    - dependency-name: "Microsoft.Extensions.Logging.Console"
+      update-types: ["version-update:semver-major"]
+
+- package-ecosystem: "github-actions"
+  directory: "/.github/"
+  schedule:
+    interval: "daily"
+  cooldown:
+    default-days: 7
