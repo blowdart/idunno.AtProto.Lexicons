@@ -6,7 +6,7 @@ using System.Text.Json.Nodes;
 using idunno.AtProto.Lexicons.Standard.Site;
 using idunno.AtProto.Repo;
 
-namespace idunno.AtProto.Lexicons.Test.SiteStandard
+namespace idunno.AtProto.Lexicons.Test.Standard.Site
 {
     public class DocumentSerializationTests
     {
@@ -96,7 +96,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             var expectedPublishedAt = new DateTimeOffset(2026, 1, 1, 0, 0, 0, 0, new TimeSpan(0));
             string expectedPath = "/path";
             string expectedDescription = "This is an example description.";
-            Blob expectedCoverImage = new (new BlobReference("expectedLink"), "image/png", 10240);
+            Blob expectedCoverImage = new (new BlobReference("bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"), "image/png", 10240);
             string expectedTextContent = "Text content";
             StrongReference expectedBskyPostRef = new (
                 new AtUri("at://did:plc:hfgp6pj3akhqxntgqwramlbg/app.bsky.feed.post/3l66cdbste424"),
@@ -170,7 +170,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
                     "coverImage": {
                         "$type": "blob",
                         "ref": {
-                            "$link": "expectedLink"
+                            "$link": "bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"
                         },
                         "mimeType": "image/png",
                         "size": 10240
@@ -203,7 +203,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             Assert.Equal("/path", actual.Path);
             Assert.Equal("Example Title", actual.Title);
             Assert.Equal("This is an example description.", actual.Description);
-            Assert.Equal(new Blob(new BlobReference(link: "expectedLink"), "image/png", 10240), actual.CoverImage);
+            Assert.Equal(new Blob(new BlobReference(link: "bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"), "image/png", 10240), actual.CoverImage);
             Assert.Equal("Text content", actual.TextContent);
             Assert.Equal(new StrongReference("at://did:plc:hfgp6pj3akhqxntgqwramlbg/app.bsky.feed.post/3l66cdbste424", "bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"), actual.BSkyPostRef);
             Assert.Equivalent(expectedTags, actual.Tags);
@@ -228,7 +228,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
                     "coverImage": {
                         "$type": "blob",
                         "ref": {
-                            "$link": "expectedLink"
+                            "$link": "bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"
                         },
                         "mimeType": "image/png",
                         "size": 10240
@@ -261,7 +261,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
             Assert.Equal("/path", actual.Path);
             Assert.Equal("Example Title", actual.Title);
             Assert.Equal("This is an example description.", actual.Description);
-            Assert.Equal(new Blob(new BlobReference(link: "expectedLink"), "image/png", 10240), actual.CoverImage);
+            Assert.Equal(new Blob(new BlobReference(link: "bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"), "image/png", 10240), actual.CoverImage);
             Assert.Equal("Text content", actual.TextContent);
             Assert.Equal(new StrongReference("at://did:plc:hfgp6pj3akhqxntgqwramlbg/app.bsky.feed.post/3l66cdbste424", "bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"), actual.BSkyPostRef);
             Assert.Equivalent(expectedTags, actual.Tags);

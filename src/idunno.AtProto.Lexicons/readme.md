@@ -2,13 +2,15 @@
 
 ## About
 
-Well known lexicons for [AT Protocol](https://docs.bsky.app/docs/api/at-protocol-xrpc-api),
+Well known record lexicons for [AT Protocol](https://docs.bsky.app/docs/api/at-protocol-xrpc-api),
 including support for source-generation-backed `System.Text.Json` serialization, trimming and AOT.
 
 ## Lexicons supported
 
-* [site.standard](standard.site) : `Standard.Site.Publication`, `Standard.Site.Document`
-* [xyz.statusphere](statusphere.xyz) : `Statusphere.Xyz.Status`
+* [community.lexicon](https://lexicon.community)
+* [site.standard](https://standard.site)
+* [smokesignal.events](https://smokesignal.events)
+* [xyz.statusphere](https://statusphere.xyz)
 
 ## Using the library
 
@@ -20,17 +22,15 @@ using idunno.AtProto.Lexicons.Statusphere.Xyz;
 
 // Create an xyz.statusphere status record.
 
-var status = new StatusphereStatus
-{
-  Value = "🫘"
-};
+var status = new StatusphereStatus(status: "🫘");
 
 AtProtoHttpResult<CreateRecordResult> createResult =
   await agent.CreateRecord(
     record: status,
     collection: StatusphereConstants.Collection,
     rKey: TimestampIdentifier.Next(),
-    validate: false);
+    validate: false,
+    jsonSerializerOptions: LexiconJsonSerializerOptions.Default);
 
 if (createResult.Succeeded)
 {

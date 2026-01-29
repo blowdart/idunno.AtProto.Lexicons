@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Barry Dorrans. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
@@ -9,6 +8,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
     /// <summary>
     /// A physical location in the form of a WGS84 coordinate.
     /// </summary>
+    [JsonPolymorphic(IgnoreUnrecognizedTypeDiscriminators = false, UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization)]
+    [JsonDerivedType(typeof(Geo), typeDiscriminator: "community.lexicon.location.geo")]
     public record Geo : LocationBase
     {
         /// <summary>
@@ -44,6 +45,23 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         }
 
         /// <summary>
+        /// Creates a new instance of <see cref="Geo"/>
+        /// </summary>
+        /// <param name="latitude">The latitude of the location, given in decimal degrees north.</param>
+        /// <param name="longitude">The longitude of the location, given in decimal degrees east.</param>
+        /// <param name="altitude">The altitude of the location, given in meters.</param>
+        /// <param name="name">The name of the location.</param>
+        public Geo(double latitude, double longitude, double? altitude = null, string? name = null) : base(name)
+        {
+            Latitude = latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            Longitude = longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            if (altitude.HasValue)
+            {
+                Altitude = altitude.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            }
+        }
+
+        /// <summary>
         /// The latitude of the location, given in decimal degrees north. Avoid using minutes and seconds (i.e. DMS) format.
         /// </summary>
         /// <remarks><para>Stored as strings, due to the exclusion of floating-point numbers from the ATProtocol data model</para></remarks>
@@ -52,7 +70,7 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         {
             get;
 
-            set
+            init
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(value);
                 field = value;
@@ -68,7 +86,7 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         {
             get;
 
-            set
+            init
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(value);
                 field = value;
@@ -80,6 +98,6 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         /// </summary>
         /// <remarks><para>Stored as strings, due to the exclusion of floating-point numbers from the ATProtocol data model</para></remarks>
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? Altitude { get; set; }
+        public string? Altitude { get; init; }
     }
 }

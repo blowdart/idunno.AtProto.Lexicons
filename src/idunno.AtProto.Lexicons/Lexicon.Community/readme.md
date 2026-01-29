@@ -1,12 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿# lexicon.community
 
-namespace idunno.AtProto.Lexicons.Lexicon.Community
-{
-    class readme
-    {
-    }
-}
+A [working group](https://github.com/lexicon-community) to create community ATProtocol Lexicons.

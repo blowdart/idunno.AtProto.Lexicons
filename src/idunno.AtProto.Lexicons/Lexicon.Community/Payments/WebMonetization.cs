@@ -26,11 +26,11 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Payments
         }
 
         /// <summary>
-        /// Gets and sets the lexicon type identifier for the record.
+        /// Gets the lexicon type identifier for the record.
         /// </summary>
         [JsonInclude]
         [JsonPropertyName("$type")]
-        public string Type { get; init; } = "community.lexicon.payments.webMonetization";
+        public string Type { get; init; } = "community.lexicon.payments#webMonetization";
 
 
         /// <summary>

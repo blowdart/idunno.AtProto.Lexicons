@@ -7,6 +7,7 @@ using idunno.AtProto.Lexicons.Lexicon.Community.Calendar;
 using idunno.AtProto.Lexicons.Lexicon.Community.Interaction;
 using idunno.AtProto.Lexicons.Lexicon.Community.Location;
 using idunno.AtProto.Lexicons.Lexicon.Community.Payments;
+using idunno.AtProto.Lexicons.SmokeSignal.Events;
 using idunno.AtProto.Lexicons.Standard.Site;
 using idunno.AtProto.Lexicons.Statusphere.Xyz;
 using idunno.AtProto.Repo;
@@ -60,6 +61,13 @@ namespace idunno.AtProto.Lexicons
     [JsonSerializable(typeof(AtProtoRepositoryRecord<WebMonetization>))]
     [JsonSerializable(typeof(Like))]
     [JsonSerializable(typeof(AtProtoRepositoryRecord<Like>))]
+
+    [JsonSerializable(typeof(Acceptance))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<Acceptance>))]
+    [JsonSerializable(typeof(Lfg))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<Lfg>))]
+    [JsonSerializable(typeof(Profile))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<Profile>))]
 
     internal sealed partial class SourceGenerationContext : JsonSerializerContext
     {

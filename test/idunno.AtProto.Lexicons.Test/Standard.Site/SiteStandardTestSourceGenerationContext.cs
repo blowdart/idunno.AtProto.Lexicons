@@ -4,7 +4,7 @@
 using System.Text.Json.Serialization;
 using idunno.AtProto.Lexicons.Standard.Site;
 
-namespace idunno.AtProto.Lexicons.Test.SiteStandard
+namespace idunno.AtProto.Lexicons.Test.Standard.Site
 {
     /// <exclude />
     [JsonSourceGenerationOptions(

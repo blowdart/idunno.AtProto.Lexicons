@@ -37,6 +37,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Location
         /// <summary>
         /// Gets or sets the name of the location.
         /// </summary>
+        [JsonInclude]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Name { get; set; }
     }
 }

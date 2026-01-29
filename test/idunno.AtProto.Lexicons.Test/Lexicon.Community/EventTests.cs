@@ -3,12 +3,11 @@
 
 using System.Text.Json;
 using System.Text.Json.Nodes;
-
 using idunno.AtProto.Lexicons.Lexicon.Community.Calendar;
 using idunno.AtProto.Lexicons.Lexicon.Community.Location;
 using idunno.AtProto.Repo;
 
-namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
+namespace idunno.AtProto.Lexicons.Test.Lexicon.Community
 {
     public class EventTests
     {

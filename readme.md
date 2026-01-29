@@ -26,12 +26,9 @@ AtProtoAgent agent = new ();
 var loginResult = await agent.Login(username, password);
 if (loginResult.Succeeded)
 {
-  var status = new StatosphereStatus
-  {
-    Status = "🫘"
-  };
+  var status = new StatosphereStatus(status : "🫘");
 
-var createResult =
+  var createResult =
     await agent.CreateRecord(
       record: status,
       collection: StatusphereConstants.Collection,
@@ -70,6 +67,8 @@ When creating records it is typical to use `TimestampIdentifier.Next()` for the 
 record key based on the current timestamp. Some applications may use "self" as a record key to identify a record of which a single
 instance is being created (such as a user profile), or completely custom record keys. Please see the application
 documentation for details.
+
+Note that this library only implements the record lexicons, not API definitions.
 
 Please see the [documentation](https://bluesky.idunno.dev/) for much more documentation on the `idunno.AtProto` agent.
 
@@ -140,9 +139,7 @@ If `CreateSession` fails you should check the `AtErrorDetails` property of the r
 
 Finally you can use the `AtProtoServer` methods to create, update and delete records directly.
 ```c#
-var status = new StatusphereStatus
-{
-    Status = "😁"
+var status = new StatusphereStatus(status: "😁");
 };
 
 var createResult = await AtProtoServer.CreateRecord(
@@ -168,8 +165,10 @@ the [Bluesky Http Reference](https://docs.bsky.app/docs/api/bsky-http-api) for m
 
 ## Lexicons supported
 
-* [site.standard](standard.site) : `Standard.Site.Publication`, `Standard.Site.Document`
-* [xyz.statusphere](statusphere.xyz) : `Statusphere.Xyz.Status`
+* [community.lexicon](https://lexicon.community)
+* [site.standard](https://standard.site)
+* [smokesignal.events](https://smokesignal.events)
+* [xyz.statusphere](https://statusphere.xyz)
 
 ## Adding new lexicons
 
@@ -179,7 +178,6 @@ If you want to add a new lexicon please see the [contributing guide](CONTRIBUTIN
 
 [![Build Status](https://github.com/blowdart/idunno.AtProto.Lexicons/actions/workflows/ci-build.yml/badge.svg?branch=main)](https://github.com/blowdart/idunno.AtProto.Lexicons/actions/workflows/ci-build.yml)
 [![CodeQL Scan](https://github.com/blowdart/idunno.AtProto.Lexicons/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/blowdart/idunno.AtProto.Lexicons/actions/workflows/codeql-analysis.yml)
-[![Dependency Review](https://github.com/blowdart/idunno.Bluesky/idunno.AtProto.Lexicons/workflows/dependency-review.yml/badge.svg)](https://github.com/blowdart/idunno.AtProto.Lexicons/actions/workflows/dependency-review.yml)
 
 
 ## License

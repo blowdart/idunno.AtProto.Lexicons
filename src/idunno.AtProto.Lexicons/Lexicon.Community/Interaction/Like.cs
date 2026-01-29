@@ -37,7 +37,7 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Interaction
         }
 
         /// <summary>
-        /// Gets and sets the lexicon type identifier for the record.
+        /// Gets the lexicon type identifier for the record.
         /// </summary>
         [JsonInclude]
         [JsonPropertyName("$type")]

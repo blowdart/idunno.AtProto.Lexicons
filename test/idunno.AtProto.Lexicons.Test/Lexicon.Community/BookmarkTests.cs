@@ -3,10 +3,9 @@
 
 using System.Text.Json;
 using System.Text.Json.Nodes;
-
 using idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks;
 
-namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
+namespace idunno.AtProto.Lexicons.Test.Lexicon.Community
 {
     public class BookmarkTests
     {

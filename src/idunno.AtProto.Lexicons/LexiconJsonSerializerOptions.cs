@@ -18,6 +18,7 @@ namespace idunno.AtProto.Lexicons
         {
             TypeInfoResolverChain = {
                 SourceGenerationContext.Default,
+                Bluesky.TypeResolver.JsonTypeInfoResolver,
                 AtProto.TypeResolver.JsonTypeInfoResolver
             }
         };

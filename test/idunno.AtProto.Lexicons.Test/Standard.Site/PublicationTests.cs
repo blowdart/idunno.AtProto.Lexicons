@@ -6,7 +6,7 @@ using idunno.AtProto.Lexicons.Standard.Site;
 
 using idunno.AtProto.Repo;
 
-namespace idunno.AtProto.Lexicons.Test.SiteStandard
+namespace idunno.AtProto.Lexicons.Test.Standard.Site
 {
     public class PublicationTests
     {
@@ -31,7 +31,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         {
             var url = new Uri("https://standard.site");
             string name = "Test Publication";
-            Blob icon = new(new BlobReference("blobLink"), "image/png", 1024);
+            Blob icon = new(new BlobReference("bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"), "image/png", 1024);
             string description = "This is a test publication.";
             BasicTheme basicTheme = new(new ThemeColorRgb(255, 255, 255), new ThemeColorRgb(0, 0, 0), new ThemeColorRgb(128, 128, 128), new ThemeColorRgb(192, 192, 192));
             TestPreferences preferences = new (true);
@@ -71,7 +71,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         {
             var url = new Uri("https://standard.site");
             string name = "Test Publication";
-            Blob invalidIcon = new (new BlobReference("blobLink"), "application/pdf", 1024);
+            Blob invalidIcon = new (new BlobReference("bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"), "application/pdf", 1024);
             Assert.Throws<ArgumentException>(() => new Publication<TestPreferences>(url, name, invalidIcon));
         }
 
@@ -80,7 +80,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         {
             var url = new Uri("https://standard.site");
             string name = "Test Publication";
-            Blob invalidIcon = new(new BlobReference("blobLink"), "image/png", 1000001);
+            Blob invalidIcon = new(new BlobReference("bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"), "image/png", 1000001);
             Assert.Throws<ArgumentOutOfRangeException>(() => new Publication<TestPreferences>(url, name, invalidIcon));
         }
 

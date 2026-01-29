@@ -4,7 +4,7 @@
 using idunno.AtProto.Lexicons.Standard.Site;
 using idunno.AtProto.Repo;
 
-namespace idunno.AtProto.Lexicons.Test.SiteStandard
+namespace idunno.AtProto.Lexicons.Test.Standard.Site
 {
     public class DocumentTests
     {
@@ -120,7 +120,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         {
             string site = "https://example.com";
             string title = "Test Document";
-            var coverImage = new Blob(new BlobReference("blobLink"), "image/png", 1000000 + 1);
+            var coverImage = new Blob(new BlobReference("bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"), "image/png", 1000000 + 1);
 
             Assert.Throws<ArgumentOutOfRangeException>(() => new Document(site, title, DateTimeOffset.UtcNow, coverImage: coverImage));
         }
@@ -130,7 +130,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         {
             string site = "https://example.com";
             string title = "Test Document";
-            var coverImage = new Blob(new BlobReference("blobLink"), "application/pdf", 1000000);
+            var coverImage = new Blob(new BlobReference("bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"), "application/pdf", 1000000);
 
             Assert.Throws<ArgumentException>(() => new Document(site, title, DateTimeOffset.UtcNow, coverImage: coverImage));
         }
@@ -140,7 +140,7 @@ namespace idunno.AtProto.Lexicons.Test.SiteStandard
         {
             string site = "https://example.com";
             string title = "Test Document";
-            var coverImage = new Blob(new BlobReference("blobLink"), string.Empty, 1000000);
+            var coverImage = new Blob(new BlobReference("bafyreibtb55kfqsny3qk4c2puoqom4cu5zkpnp5xdwu5dud264b4efocyq"), string.Empty, 1000000);
 
             Assert.Throws<ArgumentException>(() => new Document(site, title, DateTimeOffset.UtcNow, coverImage: coverImage));
         }

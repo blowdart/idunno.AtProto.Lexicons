@@ -3,10 +3,9 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using idunno.AtProto.Lexicons.Lexicon.Community.Location;
 using idunno.AtProto.Lexicons.Standard.Site;
 
-namespace idunno.AtProto.Lexicons.Test.SiteStandard
+namespace idunno.AtProto.Lexicons.Test.Standard.Site
 {
     public class PublicationSerializationTests
     {

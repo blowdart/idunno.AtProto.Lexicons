@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using idunno.AtProto.Lexicons.Statusphere.Xyz;
 
-namespace idunno.AtProto.Lexicons.Test.Statusphere
+namespace idunno.AtProto.Lexicons.Test.Statusphere.Xyz
 {
     public class StatusphereTests
     {

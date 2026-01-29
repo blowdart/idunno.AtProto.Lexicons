@@ -6,7 +6,7 @@ using System.Text.Json.Nodes;
 
 using idunno.AtProto.Lexicons.Lexicon.Community.Location;
 
-namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
+namespace idunno.AtProto.Lexicons.Test.Lexicon.Community
 {
     public class LocationTests
     {

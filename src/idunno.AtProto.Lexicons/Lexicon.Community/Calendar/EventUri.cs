@@ -9,7 +9,9 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
     /// <summary>
     /// Represents an online event location.
     /// </summary>
-    public sealed record EventUri : LocationBase
+    [JsonPolymorphic(IgnoreUnrecognizedTypeDiscriminators = false, UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization)]
+    [JsonDerivedType(typeof(Calendar.EventUri), typeDiscriminator: "community.lexicon.calendar.event#uri")]
+    public record EventUri : LocationBase
     {
         /// <summary>
         /// Creates a new instance of the <see cref="EventUri"/> class.

@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Barry Dorrans. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+
 using idunno.AtProto.Repo;
 
 namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
@@ -25,7 +25,7 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
         }
 
         /// <summary>
-        /// Gets and sets the lexicon type identifier for the record.
+        /// Gets the lexicon type identifier for the record.
         /// </summary>
         [JsonInclude]
         [JsonPropertyName("$type")]

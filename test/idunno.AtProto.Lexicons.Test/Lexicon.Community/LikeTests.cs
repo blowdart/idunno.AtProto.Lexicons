@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 using System.Text.Json;
+
 using idunno.AtProto.Lexicons.Lexicon.Community.Interaction;
 using idunno.AtProto.Repo;
 
-namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
+namespace idunno.AtProto.Lexicons.Test.Lexicon.Community
 {
     public class LikeTests
     {
@@ -14,7 +15,7 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
         {
             var expectedSubject = new StrongReference("at://user.bsky.social/com.example.events/record", "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi");
 
-            var actual = new Lexicon.Community.Interaction.Like(expectedSubject);
+            var actual = new Like(expectedSubject);
 
             Assert.Equal(expectedSubject, actual.Subject);
             Assert.InRange(actual.CreatedAt, DateTimeOffset.UtcNow.AddMinutes(-1), DateTimeOffset.UtcNow.AddMinutes(1));
@@ -25,7 +26,7 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
         {
             var expectedSubject = new StrongReference("at://user.bsky.social/com.example.events/record", "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi");
             var expectedCreatedAt = new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero);
-            var actual = new Lexicon.Community.Interaction.Like(expectedSubject, expectedCreatedAt);
+            var actual = new Like(expectedSubject, expectedCreatedAt);
             Assert.Equal(expectedSubject, actual.Subject);
             Assert.Equal(expectedCreatedAt, actual.CreatedAt);
         }
@@ -33,7 +34,7 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
         [Fact]
         public void LikeCannotBeConstructedWithNullSubject()
         {
-            Assert.Throws<ArgumentNullException>(() => new Lexicon.Community.Interaction.Like(null!));
+            Assert.Throws<ArgumentNullException>(() => new Like(null!));
         }
 
         [Fact]
@@ -41,7 +42,7 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
         {
             var expectedSubject = new StrongReference("at://user.bsky.social/com.example.events/record", "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi");
             var expectedCreatedAt = new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero);
-            var like = new Lexicon.Community.Interaction.Like(expectedSubject, expectedCreatedAt);
+            var like = new Like(expectedSubject, expectedCreatedAt);
             string json = JsonSerializer.Serialize(like, LexiconJsonSerializerOptions.Default);
             string expectedJson = """
                 {"$type":"community.lexicon.interaction.like","subject":{"uri":"at://user.bsky.social/com.example.events/record","cid":"bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"},"createdAt":"2026-01-01T00:00:00+00:00"}
@@ -62,7 +63,7 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
                     "createdAt":"2026-01-01T00:00:00+00:00"
                 }
                 """;
-            Like? actual = JsonSerializer.Deserialize<Lexicon.Community.Interaction.Like>(jsonString, LexiconJsonSerializerOptions.Default);
+            Like? actual = JsonSerializer.Deserialize<Like>(jsonString, LexiconJsonSerializerOptions.Default);
             Assert.NotNull(actual);
             Assert.Equal(new StrongReference("at://user.bsky.social/com.example.events/record", "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"), actual!.Subject);
             Assert.Equal(new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero), actual.CreatedAt);
@@ -77,7 +78,7 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
                     "createdAt":"2026-01-01T00:00:00+00:00"
                 }
                 """;
-            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Lexicon.Community.Interaction.Like>(jsonString, LexiconJsonSerializerOptions.Default));
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Like>(jsonString, LexiconJsonSerializerOptions.Default));
         }
 
         [Fact]
@@ -90,7 +91,7 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
                     "createdAt":"2026-01-01T00:00:00+00:00"
                 }
                 """;
-            Assert.Throws<ArgumentNullException>(() => JsonSerializer.Deserialize<Lexicon.Community.Interaction.Like>(jsonString, LexiconJsonSerializerOptions.Default));
+            Assert.Throws<ArgumentNullException>(() => JsonSerializer.Deserialize<Like>(jsonString, LexiconJsonSerializerOptions.Default));
         }
 
         [Fact]
@@ -105,7 +106,7 @@ namespace idunno.AtProto.Lexicons.Test.LexiconCommunity
                     }
                 }
                 """;
-            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Lexicon.Community.Interaction.Like>(jsonString, LexiconJsonSerializerOptions.Default));
+            Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Like>(jsonString, LexiconJsonSerializerOptions.Default));
         }
     }
 }

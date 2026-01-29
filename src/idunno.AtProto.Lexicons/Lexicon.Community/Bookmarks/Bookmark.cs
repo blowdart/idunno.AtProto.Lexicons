@@ -43,7 +43,6 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks
         /// <summary>
         /// Gets the lexicon type identifier for the record.
         /// </summary>
-        /// <remarks><para>Needs to have an init to keep SerializationContext happy.</para></remarks>
         [JsonInclude]
         [JsonPropertyName("$type")]
         public string Type { get; init; } = "community.lexicon.bookmarks.bookmark";
@@ -67,6 +66,7 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks
         /// <summary>
         /// Gets an optional set of tags for content the bookmark may be related to, for example 'news' or 'funny videos'.
         /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public IEnumerable<string>? Tags { get;set; }
 
         /// <summary>

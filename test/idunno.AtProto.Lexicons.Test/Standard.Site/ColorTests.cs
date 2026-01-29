@@ -5,7 +5,7 @@
 using System.Text.Json;
 using idunno.AtProto.Lexicons.Standard.Site;
 
-namespace idunno.AtProto.Lexicons.Test.SiteStandard
+namespace idunno.AtProto.Lexicons.Test.Standard.Site
 {
     public class ColorTests
     {

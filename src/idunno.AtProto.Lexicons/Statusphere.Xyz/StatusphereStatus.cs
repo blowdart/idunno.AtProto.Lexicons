@@ -41,7 +41,6 @@ namespace idunno.AtProto.Lexicons.Statusphere.Xyz
         /// <summary>
         /// Gets the lexicon type identifier for the record.
         /// </summary>
-        /// <remarks><para>Needs to have an init to keep SerializationContext happy.</para></remarks>
         [JsonInclude]
         [JsonPropertyName("$type")]
         public string Type { get; init; } = "xyz.statusphere.status";
