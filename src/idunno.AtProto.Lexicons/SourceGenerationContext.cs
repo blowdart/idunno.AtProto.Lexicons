@@ -9,6 +9,7 @@ using idunno.AtProto.Lexicons.Lexicon.Community.Location;
 using idunno.AtProto.Lexicons.Lexicon.Community.Payments;
 using idunno.AtProto.Lexicons.SmokeSignal.Events;
 using idunno.AtProto.Lexicons.Standard.Site;
+using idunno.AtProto.Lexicons.Standard.Site.Graph;
 using idunno.AtProto.Lexicons.Statusphere.Xyz;
 using idunno.AtProto.Repo;
 
@@ -35,6 +36,8 @@ namespace idunno.AtProto.Lexicons
     [JsonSerializable(typeof(Publication))]
     [JsonSerializable(typeof(AtProtoRepositoryRecord<Publication>))]
     [JsonSerializable(typeof(Preferences))]
+    [JsonSerializable(typeof(Subscription))]
+    [JsonSerializable(typeof(AtProtoRepositoryRecord<Subscription>))]
 
     [JsonSerializable(typeof(StatusphereStatus))]
     [JsonSerializable(typeof(AtProtoRepositoryRecord<StatusphereStatus>))]
