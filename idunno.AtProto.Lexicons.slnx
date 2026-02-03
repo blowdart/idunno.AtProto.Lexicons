@@ -61,6 +61,7 @@
     <File Path="Directory.Packages.props" />
     <File Path="docfx.json" />
     <File Path="exclusion.dic" />
+    <File Path="global.json" />
     <File Path="key.snk" />
     <File Path="LICENSE" />
     <File Path="minisign.pub" />
@@ -68,7 +69,6 @@
     <File Path="purge.ps1" />
     <File Path="readme.md" />
     <File Path="SECURITY.md" />
-    <File Path="sleet.json" />
     <File Path="version.json" />
   </Folder>
   <Folder Name="/src/">
