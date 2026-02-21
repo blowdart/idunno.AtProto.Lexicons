@@ -21,7 +21,6 @@ namespace idunno.AtProto.Lexicons.Test.Standard.Site
             var actual = new idunno.AtProto.Lexicons.Standard.Site.Graph.Subscription(expectedPublicationUri);
 
             Assert.NotNull(actual);
-            Assert.Equal("site.standard.graph.subscription", actual.Type);
             Assert.Equal(expectedPublicationUri, actual.Publication);
         }
 
@@ -47,7 +46,6 @@ namespace idunno.AtProto.Lexicons.Test.Standard.Site
             string json = "{\"$type\":\"site.standard.graph.subscription\",\"publication\":\"at://did:plc:abc123/site.standard.publication/xyz789\"}";
             Subscription? subscription = JsonSerializer.Deserialize<Subscription>(json, LexiconJsonSerializerOptions.Default);
             Assert.NotNull(subscription);
-            Assert.Equal("site.standard.graph.subscription", subscription!.Type);
             Assert.Equal(new AtUri("at://did:plc:abc123/site.standard.publication/xyz789"), subscription.Publication);
         }
 

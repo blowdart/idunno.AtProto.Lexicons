@@ -10,6 +10,8 @@ namespace idunno.AtProto.Lexicons.Standard.Site.Graph
     /// <summary>
     /// Record declaring a subscription to a publication.
     /// </summary>
+    [JsonPolymorphic(UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
+    [JsonDerivedType(typeof(Subscription), "site.standard.graph.subscription")] 
     public record Subscription : AtProtoRecord
     {
         /// <summary>
@@ -21,13 +23,6 @@ namespace idunno.AtProto.Lexicons.Standard.Site.Graph
             ArgumentNullException.ThrowIfNull(publication);
             Publication = publication;
         }
-
-        /// <summary>
-        /// Gets the lexicon type identifier for the record.
-        /// </summary>
-        [JsonInclude]
-        [JsonPropertyName("$type")]
-        public string Type { get; init; } = "site.standard.graph.subscription";
 
         /// <summary>
         /// Gets the reference to the publication being subscribed to.

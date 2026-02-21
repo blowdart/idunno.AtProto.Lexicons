@@ -55,11 +55,14 @@ e.g. `MyApp.Example`, so name your folder with idiomatic .NET naming.
 * Add any necessary attributes to your record properties , such as `[JsonInclude]` or [`JsonPropertyName`].
 * **Ensure** you mark required properties as `[JsonRequired]`
 * **Ensure** you use `DateTimeOffset` for date/time properties.
-* If the lexicon requires a json $type property and the class is not used in polymorphic scenarios implement one like this:
+* If the lexicon requires a json $type property decorate the record as `[JsonPolymorphic]` and
+  add a `[JsonDerivedType]` for itself with the $type value, for example:
     ```csharp
-    [JsonInclude]
-    [JsonPropertyName("$type")]
-    public string Type { get; init; } = "com.example.myapp.typeName";
+    [JsonPolymorphic(UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
+    [JsonDerivedType(typeof(StatusphereStatus), "xyz.statusphere.status")]
+    public record StatusphereStatus : AtProtoRecord
+    {
+    }
     ```
 * Decorate any optional properties `[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]`.
 * **Ensure** you have validation for each property that is settable in the `set` for the property.

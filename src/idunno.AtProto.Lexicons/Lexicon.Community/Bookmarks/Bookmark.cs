@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Barry Dorrans. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 using idunno.AtProto.Repo;
@@ -13,6 +12,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks
     /// <summary>
     /// Record bookmarking a link to come back to later.
     /// </summary>
+    [JsonPolymorphic(UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
+    [JsonDerivedType(typeof(Bookmark), "community.lexicon.bookmarks.bookmark")]
     public record Bookmark : AtProtoRecord
     {
         /// <summary>
@@ -39,13 +40,6 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks
             CreatedAt = createdAt;
             Tags = tags;
         }
-
-        /// <summary>
-        /// Gets the lexicon type identifier for the record.
-        /// </summary>
-        [JsonInclude]
-        [JsonPropertyName("$type")]
-        public string Type { get; init; } = "community.lexicon.bookmarks.bookmark";
 
         /// <summary>
         /// Gets or sets the link for the bookmark.

@@ -13,6 +13,8 @@ namespace idunno.AtProto.Lexicons.SmokeSignal.Events
     /// A user profile for SmokeSignal
     /// </summary>
     [SuppressMessage("Naming", "CA1724", Justification = "The System.Web Profile class is part of ASP.NET and has not been carried over to .NET")]
+    [JsonPolymorphic(UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
+    [JsonDerivedType(typeof(Profile), "events.smokesignal.profile")]
     public record Profile : AtProtoRecord
     {
         /// <summary>
@@ -82,13 +84,6 @@ namespace idunno.AtProto.Lexicons.SmokeSignal.Events
             Avatar = avatar;
             Banner = banner;
         }
-
-        /// <summary>
-        /// Gets the lexicon type identifier for the record.
-        /// </summary>
-        [JsonInclude]
-        [JsonPropertyName("$type")]
-        public string Type { get; init; } = "events.smokesignal.profile";
 
         /// <summary>
         /// Gets or sets the display name of the identity.

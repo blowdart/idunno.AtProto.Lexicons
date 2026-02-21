@@ -10,6 +10,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Payments
     /// <summary>
     /// <see href="https://webmonetization.org/">Web Monetization</see> integration
     /// </summary>
+    [JsonPolymorphic(UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
+    [JsonDerivedType(typeof(WebMonetization), "community.lexicon.payments.webMonetization")]
     public record WebMonetization : AtProtoRecord
     {
         /// <summary>
@@ -24,14 +26,6 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Payments
             Address = address;
             Description = description;
         }
-
-        /// <summary>
-        /// Gets the lexicon type identifier for the record.
-        /// </summary>
-        [JsonInclude]
-        [JsonPropertyName("$type")]
-        public string Type { get; init; } = "community.lexicon.payments#webMonetization";
-
 
         /// <summary>
         /// Gets or sets the wallet address.

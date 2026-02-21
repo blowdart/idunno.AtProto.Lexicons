@@ -18,7 +18,6 @@ namespace idunno.AtProto.Lexicons.Test.Lexicon.Community
             var webMonetization = new WebMonetization(address, description);
             Assert.Equal(address, webMonetization.Address);
             Assert.Equal(description, webMonetization.Description);
-            Assert.Equal("community.lexicon.payments#webMonetization", webMonetization.Type);
         }
 
         [Fact]
@@ -52,7 +51,7 @@ namespace idunno.AtProto.Lexicons.Test.Lexicon.Community
             string description = "My wallet for web monetization";
             var webMonetization = new WebMonetization(address, description);
 
-            string expected = $"{{\"$type\":\"community.lexicon.payments#webMonetization\",\"address\":\"{address}\",\"description\":\"{description}\"}}";
+            string expected = $"{{\"$type\":\"community.lexicon.payments.webMonetization\",\"address\":\"{address}\",\"description\":\"{description}\"}}";
 
             string actual = JsonSerializer.Serialize(webMonetization, LexiconJsonSerializerOptions.Default);
 
@@ -64,7 +63,7 @@ namespace idunno.AtProto.Lexicons.Test.Lexicon.Community
         {
             var address = new Uri("https://example.com/wallet");
             var webMonetization = new WebMonetization(address);
-            string expected = $"{{\"$type\":\"community.lexicon.payments#webMonetization\",\"address\":\"{address}\"}}";
+            string expected = $"{{\"$type\":\"community.lexicon.payments.webMonetization\",\"address\":\"{address}\"}}";
             string actual = JsonSerializer.Serialize(webMonetization, LexiconJsonSerializerOptions.Default);
             Assert.Equal(expected, actual);
         }
@@ -74,7 +73,7 @@ namespace idunno.AtProto.Lexicons.Test.Lexicon.Community
         {
             var address = new Uri("https://example.com/wallet");
             string description = "My wallet for web monetization";
-            string json = $"{{\"$type\":\"community.lexicon.payments#webMonetization\",\"address\":\"{address}\",\"description\":\"{description}\"}}";
+            string json = $"{{\"$type\":\"community.lexicon.payments.webMonetization\",\"address\":\"{address}\",\"description\":\"{description}\"}}";
             WebMonetization? webMonetization = JsonSerializer.Deserialize<WebMonetization>(json, LexiconJsonSerializerOptions.Default);
             Assert.NotNull(webMonetization);
             Assert.Equal(address, webMonetization!.Address);
@@ -85,7 +84,7 @@ namespace idunno.AtProto.Lexicons.Test.Lexicon.Community
         public void WebMonetizationDeserializationFailsWithoutAddress()
         {
             string description = "My wallet for web monetization";
-            string json = $"{{\"$type\":\"community.lexicon.payments#webMonetization\",\"description\":\"{description}\"}}";
+            string json = $"{{\"$type\":\"community.lexicon.payments.webMonetization\",\"description\":\"{description}\"}}";
 
             Assert.Throws<System.Text.Json.JsonException>(() =>
             {

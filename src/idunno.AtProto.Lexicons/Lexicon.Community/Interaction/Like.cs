@@ -12,6 +12,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Interaction
     /// Encapsulates A 'like' interaction with another AT Protocol record.
     /// </summary>
     [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "It is Like in the lexicon")]
+    [JsonPolymorphic(UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
+    [JsonDerivedType(typeof(Like), "community.lexicon.interaction.like")]
     public record Like: AtProtoRecord
     {
         /// <summary>
@@ -35,13 +37,6 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Interaction
             Subject = subject;
             CreatedAt = createdAt;
         }
-
-        /// <summary>
-        /// Gets the lexicon type identifier for the record.
-        /// </summary>
-        [JsonInclude]
-        [JsonPropertyName("$type")]
-        public string Type { get; init; } = "community.lexicon.interaction.like";
 
         /// <summary>
         /// Gets the subject of the Rsvp. This property is required.

@@ -42,20 +42,20 @@ if (loginResult.Succeeded)
 }
 ```
 
-To list the custom lexicon records in a collection you would write something like this:
+To list the custom lexicon records in your collection you would write something like this:
 ```c#
 var listResult = await agent.ListRecords<StatusphereStatus>(
   collection: StatusphereConstants.Collection,
   limit: maximumRecordsToList);
 ```
 
-To get a single record you can do something like this:
+To get a single record own you can do something like this:
 ```c#
 var getRecordResult = await agent.GetRecord<StatusphereStatus>(
     "at://did:plc:ec72yg6n2sydzjvtovvdlxrk/xyz.statusphere.status/3mcmqsqrlfj25");
 ```
 
-And, if that record belongs to the authenticated user, you could update the record `GetRecord()` returned with:
+And, if that record belongs to you, you could update the record `GetRecord()` returned with:
 ```c#
 var statusToUpdate = getRecordResult.Result!;
 statusToUpdate.Value.Status = "💩";
@@ -72,7 +72,40 @@ Note that this library only implements the record lexicons, not API definitions.
 
 Please see the [documentation](https://bluesky.idunno.dev/) for much more documentation on the `idunno.AtProto` agent.
 
-### JSON Source Generation support
+## Getting custom lexical records for other users
+
+As custom records are created, retrieved and updated through direct PDS access you cannot simply use an agent to retrieve a record
+on another PDS, as, by default, all pds access goes to the pds the authenticated user is hosted on.
+
+To get another user's records you need to resolve the user handle to a DID, use that DID to discover their PDS and then supply the
+PDS URI as the service parameter on the record APIs.
+
+For example, if I wanted to list Samuel's statusphere record I would use the following code
+
+```c#
+var did = await Resolution.ResolveHandle("samuel.fm");
+if (did is null)
+{
+    Console.WriteLine("Cannot resolve DID for handle.");
+    return;
+}
+
+var pds = await Resolution.ResolvePds(did);
+if (pds is null)
+{
+    Console.WriteLine("Cannot resolve pds for handle.");
+    return;
+}
+
+var listRecords = await agent.ListRecords<StatusphereStatus>(
+    repo: did,
+    collection: StatusphereConstants.Collection,
+    service: pds,
+    jsonSerializerOptions: LexiconJsonSerializerOptions.Default);
+```
+
+
+## JSON Source Generation support
 
 The library contains a source-generated `JsonSerializerOptions`, `LexiconJsonSerializerOptions.Default`.
 You pass the options to the `CreateRecord`, `ListRecords`, `PutRecord `or `ApplyWrites` methods
@@ -140,7 +173,6 @@ If `CreateSession` fails you should check the `AtErrorDetails` property of the r
 Finally you can use the `AtProtoServer` methods to create, update and delete records directly.
 ```c#
 var status = new StatusphereStatus(status: "😁");
-};
 
 var createResult = await AtProtoServer.CreateRecord(
     record: status,
@@ -166,6 +198,7 @@ the [Bluesky Http Reference](https://docs.bsky.app/docs/api/bsky-http-api) for m
 ## Lexicons supported
 
 * [community.lexicon](https://lexicon.community)
+* [app.nearhorizon.actor.pronouns](https://github.com/skydeval/atproto-pronouns/)
 * [site.standard](https://standard.site)
 * [smokesignal.events](https://smokesignal.events)
 * [xyz.statusphere](https://statusphere.xyz)

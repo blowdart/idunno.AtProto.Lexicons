@@ -2,11 +2,13 @@
 // Licensed under the MIT License.
 
 using System.Text.Json.Serialization;
+using idunno.AtProto.Lexicons.Leaflet.Pub.RichText;
 using idunno.AtProto.Lexicons.Lexicon.Community.Bookmarks;
 using idunno.AtProto.Lexicons.Lexicon.Community.Calendar;
 using idunno.AtProto.Lexicons.Lexicon.Community.Interaction;
 using idunno.AtProto.Lexicons.Lexicon.Community.Location;
 using idunno.AtProto.Lexicons.Lexicon.Community.Payments;
+using idunno.AtProto.Lexicons.NearHorizon.App.Actor;
 using idunno.AtProto.Lexicons.SmokeSignal.Events;
 using idunno.AtProto.Lexicons.Standard.Site;
 using idunno.AtProto.Lexicons.Standard.Site.Graph;
@@ -72,6 +74,22 @@ namespace idunno.AtProto.Lexicons
     [JsonSerializable(typeof(Profile))]
     [JsonSerializable(typeof(AtProtoRepositoryRecord<Profile>))]
 
+    [JsonSerializable(typeof(Leaflet.Pub.RichText.ByteSlice), TypeInfoPropertyName = "LeafletPubRichTextByteSlice")]
+    [JsonSerializable(typeof(DidMentionFacetFeature))]
+    [JsonSerializable(typeof(Leaflet.Pub.RichText.Facet), TypeInfoPropertyName = "LeafletPubRichTextFacet")]
+    [JsonSerializable(typeof(Leaflet.Pub.RichText.FacetFeature), TypeInfoPropertyName = "LeafletPubRichTextFacetFeature")]
+    [JsonSerializable(typeof(LinkFacetFeature), TypeInfoPropertyName = "LeafletPubRichLinkFacetFeature")]
+    [JsonSerializable(typeof(AtMentionFacetFeature))]
+    [JsonSerializable(typeof(CodeFacetFeature))]
+    [JsonSerializable(typeof(HighlightFacetFeature))]
+    [JsonSerializable(typeof(UnderlineFacetFeature))]
+    [JsonSerializable(typeof(StrikethroughFacetFeature))]
+    [JsonSerializable(typeof(IdFacetFeature))]
+    [JsonSerializable(typeof(BoldFacetFeature))]
+    [JsonSerializable(typeof(IList<Leaflet.Pub.RichText.FacetFeature>), TypeInfoPropertyName = "LeafletPubRichTextFacetFeatureList")]
+
+    [JsonSerializable(typeof(Pronouns))]
+    [JsonSerializable(typeof(PronounSet))]
     internal sealed partial class SourceGenerationContext : JsonSerializerContext
     {
     }

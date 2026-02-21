@@ -10,6 +10,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
     /// <summary>
     /// An RSVP for an <see cref="AtProto.Lexicons.Lexicon.Community.Calendar.Event"/>
     /// </summary>
+    [JsonPolymorphic(UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
+    [JsonDerivedType(typeof(Rsvp), "community.lexicon.calendar.rsvp")]  
     public record Rsvp : AtProtoRecord
     {
         /// <summary>
@@ -23,13 +25,6 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
             Subject = subject;
             Status = status;
         }
-
-        /// <summary>
-        /// Gets the lexicon type identifier for the record.
-        /// </summary>
-        [JsonInclude]
-        [JsonPropertyName("$type")]
-        public string Type { get; init; } = "community.lexicon.calendar.rsvp";
 
         /// <summary>
         /// Gets the subject of the Rsvp. This property is required.

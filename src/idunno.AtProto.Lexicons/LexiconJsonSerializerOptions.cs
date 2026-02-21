@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace idunno.AtProto.Lexicons
 {
@@ -16,11 +17,18 @@ namespace idunno.AtProto.Lexicons
         /// <remarks><para>Modifying the returned instance does not affect subsequent calls to this property.</para></remarks>
         public static JsonSerializerOptions Default { get => new(field); } = new(JsonSerializerDefaults.Web)
         {
+            AllowOutOfOrderMetadataProperties = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            IgnoreReadOnlyProperties = false,
+            NumberHandling = JsonNumberHandling.AllowReadingFromString,
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy  = JsonNamingPolicy.CamelCase,
             TypeInfoResolverChain = {
                 SourceGenerationContext.Default,
                 Bluesky.TypeResolver.JsonTypeInfoResolver,
                 AtProto.TypeResolver.JsonTypeInfoResolver
             }
+            
         };
     }
 }

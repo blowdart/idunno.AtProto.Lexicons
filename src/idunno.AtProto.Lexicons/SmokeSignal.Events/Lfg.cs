@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Barry Dorrans. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 using idunno.AtProto.Lexicons.Lexicon.Community.Location;
@@ -12,6 +11,8 @@ namespace idunno.AtProto.Lexicons.SmokeSignal.Events
     /// <summary>
     /// A Looking For Group (LFG) record that broadcasts interest in finding activity partners within a geographic area.
     /// </summary>
+    [JsonPolymorphic(UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
+    [JsonDerivedType(typeof(Lfg), "events.smokesignal.lfg")]
     public record Lfg : AtProtoRecord
     {
         /// <summary>
@@ -80,13 +81,6 @@ namespace idunno.AtProto.Lexicons.SmokeSignal.Events
             CreatedAt = createdAt;
             Active = active;
         }
-
-        /// <summary>
-        /// Gets the lexicon type identifier for the record.
-        /// </summary>
-        [JsonInclude]
-        [JsonPropertyName("$type")]
-        public string Type { get; init; } = "events.smokesignal.lfg";
 
         /// <summary>
         /// Gets or sets the geographic location for activity partner matching.

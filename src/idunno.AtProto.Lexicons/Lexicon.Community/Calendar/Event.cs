@@ -12,6 +12,8 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
     /// Encapsulates a calendar event.
     /// </summary>
     [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "It's called Event in the lexicon, so matching.")]
+    [JsonPolymorphic(UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
+    [JsonDerivedType(typeof(Event), "community.lexicon.calendar.event")]
     public record Event : AtProtoRecord
     {
         /// <summary>
@@ -48,13 +50,6 @@ namespace idunno.AtProto.Lexicons.Lexicon.Community.Calendar
             Locations = locations;
             Uris = uris;
         }
-
-        /// <summary>
-        /// Gets the lexicon type identifier for the record.
-        /// </summary>
-        [JsonInclude]
-        [JsonPropertyName("$type")]
-        public string Type { get; init; } = "community.lexicon.calendar.event";
 
         /// <summary>
         /// Gets or sets the name of the event.

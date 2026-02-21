@@ -11,7 +11,9 @@ namespace idunno.AtProto.Lexicons.Statusphere.Xyz
     /// <summary>
     /// Represents a status record in the statusphere.xyz lexicon.
     /// </summary>
-    public sealed record StatusphereStatus : AtProtoRecord
+    [JsonPolymorphic(UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
+    [JsonDerivedType(typeof(StatusphereStatus), "xyz.statusphere.status")]
+    public record StatusphereStatus : AtProtoRecord
     {
         /// <summary>
         /// Creates a new instance of the <see cref="StatusphereStatus"/> class.
@@ -37,13 +39,6 @@ namespace idunno.AtProto.Lexicons.Statusphere.Xyz
             Status = status;
             CreatedAt = createdAt;
         }
-
-        /// <summary>
-        /// Gets the lexicon type identifier for the record.
-        /// </summary>
-        [JsonInclude]
-        [JsonPropertyName("$type")]
-        public string Type { get; init; } = "xyz.statusphere.status";
 
         /// <summary>
         /// Gets the status message.
