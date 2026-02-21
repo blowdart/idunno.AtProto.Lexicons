@@ -1,16 +1,11 @@
 ﻿// Copyright (c) Barry Dorrans. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Diagnostics;
-
 using Microsoft.Extensions.Logging;
 
 using Samples.Common;
 
 using idunno.AtProto;
-using idunno.AtProto.Repo;
-using idunno.AtProto.Lexicons;
-using idunno.AtProto.Lexicons.Statusphere.Xyz;
 
 namespace Samples.ConsoleShell
 {

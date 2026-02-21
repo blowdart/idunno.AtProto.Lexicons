@@ -8,13 +8,10 @@ using Microsoft.Extensions.Logging;
 
 using idunno.AtProto;
 using idunno.AtProto.Authentication;
+using idunno.AtProto.OAuthCallback;
 using idunno.Bluesky;
 
 using Samples.Common;
-using idunno.AtProto.OAuthCallback;
-using idunno.AtProto.Lexicons.NearHorizon.App;
-using idunno.AtProto.Lexicons.NearHorizon.App.Actor;
-using idunno.AtProto.Lexicons;
 
 namespace Samples.ConsoleShellOAuth
 {
