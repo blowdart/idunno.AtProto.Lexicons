@@ -8,6 +8,7 @@
     <PackageVersion Include="DotNet.ReproducibleBuilds" Version="2.0.2" />
     <PackageVersion Include="DotNetAnalyzers.DocumentationAnalyzers" Version="1.0.0-beta.59" />
     <PackageVersion Include="idunno.AtProto" Version="1.5.0" />
+    <PackageVersion Include="idunno.AtProto.OAuthCallback" Version="1.5.0" />
     <PackageVersion Include="idunno.Bluesky" Version="1.5.0" />
     <PackageVersion Include="JunitXml.TestLogger" Version="7.0.2" />
     <PackageVersion Include="Microsoft.CodeCoverage" Version="18.0.1" />

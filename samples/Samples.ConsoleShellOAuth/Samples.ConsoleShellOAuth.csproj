@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="idunno.AtProto.OAuthCallback" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\idunno.AtProto.Lexicons\idunno.AtProto.Lexicons.csproj" />
+    <ProjectReference Include="..\Samples.Common\Samples.Common.csproj" />
+  </ItemGroup>
+  
+</Project>
