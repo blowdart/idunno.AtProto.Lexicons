@@ -44,7 +44,10 @@
       <Build Solution="CodeQL|*" Project="false" />
       <Build Solution="Release|*" Project="false" />
     </Project>
-    <Project Path="samples/Samples.ConsoleShellOAuth/Samples.ConsoleShellOAuth.csproj" />
+    <Project Path="samples/Samples.ConsoleShellOAuth/Samples.ConsoleShellOAuth.csproj">
+      <Build Solution="CodeQL|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
     <Project Path="samples/Samples.PdsDirectStatusphere/Samples.PdsDirectStatusphere.csproj" Id="dc2b8388-ad36-4048-8a4c-953467436f77">
       <Build Solution="CodeQL|*" Project="false" />
       <Build Solution="Release|*" Project="false" />
