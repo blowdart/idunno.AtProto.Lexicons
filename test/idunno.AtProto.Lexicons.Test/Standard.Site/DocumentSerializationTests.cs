@@ -135,7 +135,7 @@ namespace idunno.AtProto.Lexicons.Test.Standard.Site
             Assert.Equal(expectedPublishedAt, actual["publishedAt"]!.GetValue<DateTimeOffset>());
             Assert.Equal(expectedPath, actual["path"]!.GetValue<string>());
             Assert.Equal(expectedDescription, actual["description"]!.GetValue<string>());
-            Assert.Equal(expectedCoverImage.Type, actual["coverImage"]!["$type"]!.GetValue<string>());
+            Assert.Equal("blob", actual["coverImage"]!["$type"]!.GetValue<string>());
             Assert.Equal(expectedCoverImage.Reference.Link, actual["coverImage"]!["ref"]!["$link"]!.GetValue<string>());
             Assert.Equal(expectedCoverImage.MimeType, actual["coverImage"]!["mimeType"]!.GetValue<string>());
             Assert.Equal(expectedCoverImage.Size, actual["coverImage"]!["size"]!.GetValue<int>());
